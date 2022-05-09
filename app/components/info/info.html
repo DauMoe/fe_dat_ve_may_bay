@@ -1,0 +1,39 @@
+<div class="dashboard-container">
+    <span ng-include="'components/Sidebar/sidebar.html'"></span>
+    <div class="dashboard-right">
+        <h1>Thông tin cá nhân</h1>
+        <div class="margin-top-50">
+            <label class="bold">Email:</label>
+            <input class="form-control" ng-model="UserData.email" type="text" placeholder="Email của bạn" readonly/>
+        </div>
+
+        <div class="margin-top-20">
+            <label class="bold">Username:</label>
+            <input class="form-control" ng-model="UserData.username" type="text" placeholder="Username"/>
+        </div>
+
+        <!-- <div class="margin-top-20">
+            <label class="bold">Ngày tháng năm sinh:</label>
+            <input class="form-control" ng-model="UserData.dateOfBirth" type="date"/>
+        </div> -->
+
+        <div class="margin-top-20">
+            <label class="bold">Số điện thoại:</label>
+            <input class="form-control" ng-model="UserData.phone" type="text" placeholder="Số điện thoại"/>
+        </div>
+
+        <!-- <div class="margin-top-20">
+            <label class="bold">Giới tính:</label>
+            <select class="form-control" ng-model="UserData.gender">
+                <option value="1">Nam</option>
+                <option value="0">Nữ</option>
+                <option value="-1">Khác</option>
+            </select>
+        </div> -->
+
+
+        <div class="margin-top-20">
+            <button class="btn btn-blue pull-right" ng-click="SaveUserInfo()">Lưu thông tin</button>
+        </div>
+    </div>
+</div>

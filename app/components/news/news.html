@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center" style="background: url(components/header_thum.jpg) no-repeat center; background-size: cover; background-color: #1a1a1a81; background-blend-mode: multiply; color: rgb(226, 226, 226);">
+                <h1>Muavegiare.com</h1>
+                <p>Đồng hành cùng bạn trên mọi chặng đường!</p> 
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <a href="#!/dashboard" class="btn btn-primary pull-right">Tìm kiếm vé</a>
+        </div>
+
+        <div class="col-md-12">
+            <h2>Các tin tức nổi bật trong ngày</h2>
+        </div>
+
+        <div class="col-md-12" style="margin: 10px 0; cursor: pointer;">
+            <div class="col-md-6" ng-repeat="p in ListNews track by $index" ng-click="DetailNews(p)">
+                <div class="card" style="background-color: #e7e7e7; padding: 10px">
+                    <img class="card-img-top" width="100%" src="{{p.mainImagePath}}" alt="Main Background">
+                    <div class="card-body">
+                        <h4 class="card-title bold">{{p.title}}</h4>
+                        <p class="card-text">{{p.preview_content}}</p>
+                        <small style="text-align: right; font-style: italic; display: block; margin-top: 5px;">Tác giả: {{p.author}} ({{p.createdTime}})</small>
+                      <!-- <a href="#" class="btn btn-primary">Đi tới bài post</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="DetailNewsModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+              
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">{{NewsInfo.title}}</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <img src="{{NewsInfo.mainImagePath}}" width="100%" style="max-height: 300px; object-fit: contain;"/>
+                    <p style="margin-top: 10px">{{NewsInfo.content}}</p>
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn pull-right" data-dismiss="modal">Đóng</button>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+</div>

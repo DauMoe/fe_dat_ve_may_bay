@@ -1,0 +1,111 @@
+/* ---------- DASHBOARD FLIGHT ITEM ---------- */
+.dashboard-flight-item {
+    position: relative;
+    display: inline-block;
+    width: 280px;
+    height: 350px;
+    background-color: white;
+    border-radius: 20px;
+    transition: box-shadow .2s;
+    margin: 15px 60px 30px 0;
+}
+
+.dashboard-flight-item::after {
+    position: absolute;
+    border-radius: 20px;
+    content: "";
+    height: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(206, 205, 205, 0.51);
+    transition: height .5s;
+}
+
+.dashboard-flight-item::before {
+    content: "Đặt vé";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+    background-color: white;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #423d3d;
+    transition: z-index .27s;
+    transition-timing-function: ease-in-out;
+}
+
+.dashboard-flight-item:hover::before {
+    z-index: 3;
+}
+
+.dashboard-flight-item:hover::after {
+    height: 100%;
+}
+
+.dashboard-flight-item-thumbnail {
+    border-radius: 20px;
+    height: 180px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: 10px;
+}
+
+.dashboard-flight-item-info {
+    display: flex;
+    height: 70px;
+    margin: 20px 20px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dashboard-flight-item-info-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dashboard-flight-item-info-header > span:first-child {
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.dashboard-flight-item-info-location {
+    display: flex;
+    justify-content: space-between;
+    color: #bab7b7;
+}
+
+.dashboard-flight-item-info-location > span:hover {
+    cursor: pointer;
+}
+
+.dashboard-flight-item-info-location > span:first-child, .dashboard-flight-item-info-location > span:last-child {
+    color: #418BF7;
+}
+
+.dashboard-flight-item-time {
+    height: 50px;
+    background-color: #4c4c4c;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: #cdcdcd;
+}
+
+.dashboard-flight-item-time > span:first-child {
+    color: white;
+}

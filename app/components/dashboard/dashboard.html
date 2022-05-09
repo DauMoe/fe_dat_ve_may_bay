@@ -1,0 +1,361 @@
+<!-- https://saravanajd.github.io/Angularjs-Dropdown-Search/ -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center" style="background: url(components/header_thum.jpg) no-repeat center; background-size: cover; background-color: #1a1a1a81; background-blend-mode: multiply; color: rgb(226, 226, 226);">
+                <h1>Muavegiare.com</h1>
+                <p>Đồng hành cùng bạn trên mọi chặng đường!</p> 
+            </div>
+        </div>
+        <div class="col-md-12" style="background-color: #104787; border-radius: 10px; margin: 0 15px 30px 15px; width: calc(100% - 30px);">
+            <h2 style="color: white;">Tìm kiếm vé máy bay giá tốt</h2>
+            <div class="row" style="padding: 0 0 15px 0">
+                <div class="col-md-6">
+                    <div>
+                        <label style="color: white; font-size: 16px;">Chọn điểm đi</label>
+                        <dropdown-select dd-model='LocationFrom' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <label style="color: white; font-size: 16px;">Ngày đi</label>
+                        <input class="form-control datepicker" data-date-format="dd/mm/yyyy" ng-model="date_from" data-provide="datepicker" placeholder="Bấm chọn ngày đi" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <label style="color: white; font-size: 16px;">Chọn điểm đến</label>
+                        <dropdown-select dd-model='LocationTo' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <label style="color: white; font-size: 16px;">Ngày về</label>
+                        <input class="form-control datepicker" data-date-format="dd/mm/yyyy" ng-model="date_to" data-provide="datepicker" placeholder="Bấm chọn ngày về (NẾU CÓ)" readonly>
+                    </div>
+
+                    <div style="margin-top:30px">
+                        <button class="btn pull-right" ng-click="RemoveGoBackDate()">Bỏ ngày về</button>
+                        <button class="btn btn-warning pull-right" style="margin-right: 15px" ng-click="SearchTicket()">Tìm kiếm vé</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length == 0">
+            <h2>Kết quả tìm kiếm</h2>
+            <div id="accordion">
+                <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
+                  <div class="card-header" id="headingOne">
+                      <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from1_')" data-target="#__from1_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center;">
+                        <div style="flex: 1.5;">
+                            <img width="100%" src="{{p.link_image_brand}}"/>
+                        </div>
+                        <div style="flex: 1" class="text-center">
+                            <span>VNJ123</span>
+                        </div>
+                        <div style="flex: 1" class="text-center">
+                            <span>{{p.start_time}} - {{p.end_time}}</span>
+                        </div>
+                        <div style="flex: 2" class="text-center">
+                            <span>{{p.price}}VNĐ</span>
+                        </div>
+                      </div>
+                  </div>
+              
+                  <div id="__from1_{{$index}}" ng-show="p.detail != null" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body" style="background-color: #dddddd; padding: 5px;">
+
+                        <div style="display: flex; margin: 10px 0; align-items: center;">
+                            <div style="flex: 5; text-align: right;">
+                                <h4>{{p.detail.flight_detail.from_airport.city}} ({{p.detail.flight_detail.from_airport.country}})</h4>
+                                <span>Khởi hành: {{p.detail.flight_schedule.start_time}}</span>
+                            </div>
+                            <div style="flex: 1" class="text-center">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </div>
+                            <div style="flex: 5; text-align: left;">
+                                <h4>{{p.detail.flight_detail.to_airport.city}} ({{p.detail.flight_detail.to_airport.country}})</h4>
+                                <span>Khởi hành: {{p.detail.flight_schedule.end_time}}</span>
+                            </div>
+                            <div style="flex: 1" class="text-center"></div>
+                            <div style="flex: 3">
+                                <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
+                                <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
+                                <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; margin: 10px 0;">
+                            <div style="flex: 1;" class="text-center">
+                                <b>Số lượng vé</b><br/>1
+                            </div>
+
+                            <div style="flex: 1;" class="text-center">
+                                <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                            </div>
+
+                            <div style="flex: 1;" class="text-center">
+                                <b>Thuế & phí</b><br/>{{p.detail.price.tax}} VNĐ
+                            </div>
+
+                            <div style="flex: 1;" class="text-center">
+                                <b>Tổng tiền</b><br/>{{p.detail.price.total_price}} VNĐ
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <h4>Điều kiện hành lý</h4>
+                            <span>Hành lý xách tay: 7kg</span><br/>
+                            <span>Hành lý kí gửi: Vui lòng xem khi đặt vé</span>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <h4>Điều kiện về vé</h4>
+                            <span>- Áp dụng đổi vé miễn phí</span><br/>
+                            <span>- Áp dụng hoàn vé miễn phí</span><br/>
+                            <span>- Không áp dụng đổi tên</span>
+                        </div>
+
+                        <div style="margin-top:20px">
+                            <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p, 0)">ĐẶT VÉ NGAY!</button>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length > 0">
+            <div class="col-md-6">
+                <h2>Kết quả tìm kiếm</h2>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-outline-info btn-block pull-right" ng-click="OrderTicket(null, 1)" style="background-color: rgb(24, 107, 80); color: white;">Đặt vé!</button>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length > 0">
+            <div class="col-md-6">
+                <h4>Chiều đi</h4>
+                <div id="accordion">
+                    <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
+                      <div class="card-header" id="headingOne">
+                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px;">
+                            <div style="flex: 1.5;">
+                                <img width="100%" src="{{p.link_image_brand}}"/>
+                            </div>
+                            <div style="flex: 1" class="text-center">
+                                <span>VNJ123</span>
+                            </div>
+                            <div style="flex: 1" class="text-center">
+                                <span>{{p.start_time}} - {{p.end_time}}</span>
+                            </div>
+                            <div style="flex: 2" class="text-center">
+                                <span>{{p.price}}VNĐ</span>
+                            </div>
+                          </div>
+                      </div>
+                  
+                      <div id="__from_{{$index}}" ng-show="p.detail != null" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body" style="background-color: #dddddd; padding: 5px;">
+    
+                            <div style="display: flex; margin: 10px 0; align-items: center;">
+                                <div style="flex: 5; text-align: right;">
+                                    <h4>{{p.detail.flight_detail.from_airport.city}} ({{p.detail.flight_detail.from_airport.country}})</h4>
+                                    <span>Khởi hành: {{p.detail.flight_schedule.start_time}}</span>
+                                </div>
+                                <div style="flex: 1" class="text-center">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </div>
+                                <div style="flex: 5; text-align: left;">
+                                    <h4>{{p.detail.flight_detail.to_airport.city}} ({{p.detail.flight_detail.to_airport.country}})</h4>
+                                    <span>Khởi hành: {{p.detail.flight_schedule.end_time}}</span>
+                                </div>
+                                <div style="flex: 1" class="text-center"></div>
+                                <div style="flex: 3">
+                                    <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
+                                    <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
+                                    <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                    <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
+                                </div>
+                            </div>
+    
+                            <div style="display: flex; margin: 10px 0;">
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Số lượng vé</b><br/>1
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Thuế & phí</b><br/>{{p.detail.price.tax}} VNĐ
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Tổng tiền</b><br/>{{p.detail.price.total_price}} VNĐ
+                                </div>
+                            </div>
+    
+                            <div style="margin-top:10px">
+                                <h4>Điều kiện hành lý</h4>
+                                <span>Hành lý xách tay: 7kg</span><br/>
+                                <span>Hành lý kí gửi: Vui lòng xem khi đặt vé</span>
+                            </div>
+    
+                            <div style="margin-top:10px">
+                                <h4>Điều kiện về vé</h4>
+                                <span>- Áp dụng đổi vé miễn phí</span><br/>
+                                <span>- Áp dụng hoàn vé miễn phí</span><br/>
+                                <span>- Không áp dụng đổi tên</span>
+                            </div>
+    
+                            <div style="margin-top:20px">
+                                <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p)">ĐẶT VÉ NGAY!</button>
+                            </div>
+    
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4>Chiều về</h4>
+                <div id="accordion">
+                    <div class="card" style="margin-top:15px" ng-repeat="p in TicketTo track by $index">
+                      <div class="card-header" id="headingOne">
+                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px">
+                            <div style="flex: 1.5;">
+                                <img width="100%" src="{{p.link_image_brand}}"/>
+                            </div>
+                            <div style="flex: 1" class="text-center">
+                                <span>VNJ123</span>
+                            </div>
+                            <div style="flex: 1" class="text-center">
+                                <span>{{p.start_time}} - {{p.end_time}}</span>
+                            </div>
+                            <div style="flex: 2" class="text-center">
+                                <span>{{p.price}}VNĐ</span>
+                            </div>
+                          </div>
+                      </div>
+                  
+                      <div id="__to_{{$index}}" ng-show="p.detail != null" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body" style="background-color: #dddddd; padding: 5px;">
+    
+                            <div style="display: flex; margin: 10px 0; align-items: center;">
+                                <div style="flex: 5; text-align: right;">
+                                    <h4>{{p.detail.flight_detail.from_airport.city}} ({{p.detail.flight_detail.from_airport.country}})</h4>
+                                    <span>Khởi hành: {{p.detail.flight_schedule.start_time}}</span>
+                                </div>
+                                <div style="flex: 1" class="text-center">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </div>
+                                <div style="flex: 5; text-align: left;">
+                                    <h4>{{p.detail.flight_detail.to_airport.city}} ({{p.detail.flight_detail.to_airport.country}})</h4>
+                                    <span>Khởi hành: {{p.detail.flight_schedule.end_time}}</span>
+                                </div>
+                                <div style="flex: 1" class="text-center"></div>
+                                <div style="flex: 3">
+                                    <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
+                                    <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
+                                    <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                    <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
+                                </div>
+                            </div>
+    
+                            <div style="display: flex; margin: 10px 0;">
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Số lượng vé</b><br/>1
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Thuế & phí</b><br/>{{p.detail.price.tax}} VNĐ
+                                </div>
+    
+                                <div style="flex: 1;" class="text-center">
+                                    <b>Tổng tiền</b><br/>{{p.detail.price.total_price}} VNĐ
+                                </div>
+                            </div>
+    
+                            <div style="margin-top:10px">
+                                <h4>Điều kiện hành lý</h4>
+                                <span>Hành lý xách tay: 7kg</span><br/>
+                                <span>Hành lý kí gửi: Vui lòng xem khi đặt vé</span>
+                            </div>
+    
+                            <div style="margin-top:10px">
+                                <h4>Điều kiện về vé</h4>
+                                <span>- Áp dụng đổi vé miễn phí</span><br/>
+                                <span>- Áp dụng hoàn vé miễn phí</span><br/>
+                                <span>- Không áp dụng đổi tên</span>
+                            </div>
+    
+                            <div style="margin-top:20px">
+                                <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p)">ĐẶT VÉ NGAY!</button>
+                            </div>
+    
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="BookingTicketModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+              
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Đặt vé máy bay</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <div class="row">
+                        <div class="col-md-12">
+                            <label class="bold">Tên hành khách:</label>
+                            <input class="form-control" ng-model="SelectedFlight.name"/>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px;">
+                            <label class="bold">Số điện thoại:</label>
+                            <input class="form-control" ng-model="SelectedFlight.phone"/>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px;">
+                            <label class="bold">Email:</label>
+                            <input class="form-control" ng-model="SelectedFlight.email"/>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
+                            <label class="bold">Chọn vé chiều đi:</label>
+                            <dropdown-select dd-model='SelectedFlight.FromTicket' dd-data='TicketFrom' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
+                            <label class="bold">Chọn vé chiều về:</label>
+                            <dropdown-select dd-model='SelectedFlight.ToTicket' dd-data='TicketTo' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
+                        </div>
+                  </div>
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn pull-right" data-dismiss="modal">Huỷ</button>
+                    <button type="button" class="btn btn-info pull-right" style="margin-right: 10px;" ng-click="BookTicket()">Đặt vé</button>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+</div>

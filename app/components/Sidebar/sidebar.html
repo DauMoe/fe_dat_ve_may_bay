@@ -1,0 +1,28 @@
+<div class="dashboard-left">
+    <div class="dashboard-info">
+        <img class="dashboard-avatar" ng-src="components/Media/bg1.jpg" alt="avatar"/>
+        <div class="dashboard-user">
+            <h2>{{username}}</h2>
+            <span>{{role_name}}</span>
+        </div>
+        <div class="dashboard-signout" ng-click="SignOut()">
+            <i class="fa fa-sign-out fa-2x color_gray" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div class="dashboard-sidebar-container margin-top-10" ng-repeat="f in ListSideBarItem track by $index">
+        <span>{{f.title}}</span>
+        <ul class="dashboard-sidebar">
+            <a href="{{p.path}}" style="text-decoration: none; color: rgb(78, 76, 76);" ng-repeat="p in f.item track by $index" ng-click="SideBarClickHandle(p)">
+                <li class="dashboard-sidebar-item" ng-class="p.selected===true ? 'dashboard-sidebar-item-selected' : ''">
+                    <i ng-class="p.icon" aria-hidden="true"></i>
+                    <label>{{p.label}}</label>
+                </li>
+            </a>
+        </ul>
+    </div>
+
+    <div class="dashboard-sidebar-footer text-center">
+        <span>&copy; Easy flight. All rights reserved</span>
+    </div>
+</div>
