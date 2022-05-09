@@ -11,7 +11,7 @@
  Target Server Version : 100413
  File Encoding         : 65001
 
- Date: 30/04/2022 09:53:43
+ Date: 09/05/2022 19:38:42
 */
 
 SET NAMES utf8mb4;
@@ -83,6 +83,26 @@ INSERT INTO `flight` VALUES (1, 'DN1234', 1, 2, 2);
 INSERT INTO `flight` VALUES (2, 'HN789', 2, 1, 1);
 
 -- ----------------------------
+-- Table structure for flight_common
+-- ----------------------------
+DROP TABLE IF EXISTS `flight_common`;
+CREATE TABLE `flight_common`  (
+  `flight_id` int NOT NULL,
+  `airplane_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `available_seat` int NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `flight_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `from_airport_id` int NULL DEFAULT NULL,
+  `start_time` datetime(0) NULL DEFAULT NULL,
+  `to_airport_id` int NULL DEFAULT NULL,
+  PRIMARY KEY (`flight_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of flight_common
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for flight_log
 -- ----------------------------
 DROP TABLE IF EXISTS `flight_log`;
@@ -124,11 +144,30 @@ CREATE TABLE `flight_news`  (
   `update_by` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `updated_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`flight_news_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of flight_news
 -- ----------------------------
+INSERT INTO `flight_news` VALUES (1, 'QuangNV34', 'không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id không cho vào là null hoặc để số 0 với id ', '2022-05-08 21:19:59', 'bg1.jpg', 'Mua he cua chung ta', NULL, '2022-05-08 21:20:04');
+
+-- ----------------------------
+-- Table structure for flight_news_image
+-- ----------------------------
+DROP TABLE IF EXISTS `flight_news_image`;
+CREATE TABLE `flight_news_image`  (
+  `flight_news_image_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `flight_news_id` int NULL DEFAULT NULL,
+  PRIMARY KEY (`flight_news_image_id`) USING BTREE,
+  INDEX `FKhu351xqu2ne3ej3a4xbrfj8lj`(`flight_news_id`) USING BTREE,
+  CONSTRAINT `FKhu351xqu2ne3ej3a4xbrfj8lj` FOREIGN KEY (`flight_news_id`) REFERENCES `flight_news` (`flight_news_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of flight_news_image
+-- ----------------------------
+INSERT INTO `flight_news_image` VALUES (1, 'bg1.jpg', 1);
 
 -- ----------------------------
 -- Table structure for flight_schedule
@@ -150,8 +189,8 @@ CREATE TABLE `flight_schedule`  (
 -- ----------------------------
 -- Records of flight_schedule
 -- ----------------------------
-INSERT INTO `flight_schedule` VALUES (1, '2022-03-08 21:56:54.000000', '2022-03-08 23:56:54.000000', 'DN1234', 146, 'FLIGHT_ON');
-INSERT INTO `flight_schedule` VALUES (2, '2022-03-09 21:56:54.000000', '2022-03-09 23:56:54.000000', 'HN789', 80, 'FLIGHT_ON');
+INSERT INTO `flight_schedule` VALUES (1, '2022-03-08 21:56:54.000000', '2022-03-08 23:56:54.000000', 'DN1234', 143, 'FLIGHT_ON');
+INSERT INTO `flight_schedule` VALUES (2, '2022-03-09 21:56:54.000000', '2022-03-09 23:56:54.000000', 'HN789', 77, 'FLIGHT_ON');
 
 -- ----------------------------
 -- Table structure for flight_ticket_entity
@@ -190,13 +229,14 @@ CREATE TABLE `location`  (
   `city_id` int NULL DEFAULT NULL,
   `city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`LOCATION_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of location
 -- ----------------------------
-INSERT INTO `location` VALUES (1, 10, 10, 'VIETNAM', '10', '11', NULL, NULL);
-INSERT INTO `location` VALUES (2, 221, 22, 'RUSSIA', '12', '23', NULL, NULL);
+INSERT INTO `location` VALUES (1, 10, 1, 'VIETNAM', '10', '11', 1, 'HÀ NỘI (HN)');
+INSERT INTO `location` VALUES (2, 221, 22, 'RUSSIA', '12', '23', 3, 'MOSCOW');
+INSERT INTO `location` VALUES (3, 10, 2, 'VIETNAM', NULL, NULL, 2, 'HỒ CHÍ MINH (HCM)');
 
 -- ----------------------------
 -- Table structure for passenger
@@ -208,11 +248,13 @@ CREATE TABLE `passenger`  (
   `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `phone_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of passenger
 -- ----------------------------
+INSERT INTO `passenger` VALUES (3, 'demo@gmail.com', 'long', '097878778');
+INSERT INTO `passenger` VALUES (9, 'a@gmail.com', 'a', 'a');
 
 -- ----------------------------
 -- Table structure for password_reset_token
@@ -248,18 +290,45 @@ CREATE TABLE `ticket`  (
   PRIMARY KEY (`TICKET_ID`) USING BTREE,
   INDEX `FLIGHT_SCHEDULE_ID`(`FLIGHT_SCHEDULE_ID`) USING BTREE,
   INDEX `UID`(`UID`) USING BTREE,
-  CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`FLIGHT_SCHEDULE_ID`) REFERENCES `flight_schedule` (`FLIGHT_SCHEDULE_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`FLIGHT_SCHEDULE_ID`) REFERENCES `flight_schedule` (`FLIGHT_SCHEDULE_ID`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ticket
 -- ----------------------------
-INSERT INTO `ticket` VALUES (9, 2, 'H06', 1650000, 2, 'AVAILABLE', 20, 'ECONOMY_CLASS');
-INSERT INTO `ticket` VALUES (10, 1, 'H06', 1800000, 1, 'BOOKED', 20, 'ECONOMY_CLASS');
-INSERT INTO `ticket` VALUES (11, 1, 'H07', 1500000, 1, 'AVAILABLE', 20, 'ECONOMY_CLASS');
+INSERT INTO `ticket` VALUES (9, 2, 'H06', 1650000, 3, 'BOOKED', 20, 'ECONOMY_CLASS');
+INSERT INTO `ticket` VALUES (10, 1, 'H06', 1800000, 3, 'BOOKED', 20, 'ECONOMY_CLASS');
+INSERT INTO `ticket` VALUES (11, 1, 'H07', 1500000, 9, 'BOOKED', 20, 'ECONOMY_CLASS');
 INSERT INTO `ticket` VALUES (12, 1, 'H08', 1500000, 1, 'AVAILABLE', 23, 'ECONOMY_CLASS');
 INSERT INTO `ticket` VALUES (13, 1, 'H10', 1500000, 1, 'BOOKED', 23, 'BUSINESS_CLASS');
+INSERT INTO `ticket` VALUES (14, 2, 'H11', 200000, 1, 'AVAILABLE', 40, 'ECONOMY_CLASS');
+
+-- ----------------------------
+-- Table structure for ticket_common
+-- ----------------------------
+DROP TABLE IF EXISTS `ticket_common`;
+CREATE TABLE `ticket_common`  (
+  `ticket_id` int NOT NULL,
+  `airplane_id` int NULL DEFAULT NULL,
+  `airplane_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `available_seat` int NULL DEFAULT NULL,
+  `booking_state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `flight_id` int NULL DEFAULT NULL,
+  `flight_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `flight_schedule_id` int NULL DEFAULT NULL,
+  `from_airport_id` int NULL DEFAULT NULL,
+  `price` bigint NULL DEFAULT NULL,
+  `seat_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `start_time` datetime(0) NULL DEFAULT NULL,
+  `to_airport_id` int NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ticket_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ticket_common
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -281,12 +350,13 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `EMAIL`(`EMAIL`) USING BTREE,
   UNIQUE INDEX `USERNAME_2`(`USERNAME`) USING BTREE,
   INDEX `USERNAME`(`USERNAME`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'abc@gmail', 'long', 'long', 1, NULL, NULL, NULL, 0, NULL, '');
+INSERT INTO `user` VALUES (1, 'abc@gmail', 'long', '$10$QG3qqrSURLACZGK2CgBjDOKoUQveCnJsTJZb5dCCpMetJKi8txLcG', 1, NULL, NULL, NULL, 0, NULL, '');
 INSERT INTO `user` VALUES (2, 'phamphilong4101999@gmail.com', 'longpp', '$2a$10$QG3qqrSURLACZGK2CgBjDOKoUQveCnJsTJZb5dCCpMetJKi8txLcG', 1, NULL, NULL, NULL, 0, NULL, 'ff278dd4-53fd-4450-950c-45a07233c119');
+INSERT INTO `user` VALUES (3, 'a', 'quangnguyen', '$2a$10$V/ziENG8CaKvt2X/Hq0y9eRfXqqGwOHnpHJLOSt8/dIE1duIEKVuW', 1, NULL, NULL, NULL, 1, 'K6lEWEbe2TE7XC2snbR8Y6t6thFRWzxekYb4c5SA7py1yx9xEm26f8hE3ti225Yl', '73b1fe5c-a24f-49de-bbc1-60f32e7e2afd');
 
 SET FOREIGN_KEY_CHECKS = 1;
