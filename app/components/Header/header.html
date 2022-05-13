@@ -1,3 +1,18 @@
-<div>
-    <p>Header here!</p>
-</div>
+<nav class="navbar navbar-inverse" >
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#!/news">Muavegiare.com</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#!/news">Tin tức nổi bật</a></li>
+        <li><a href="#!/dashboard">Tìm vé máy bay</a></li>
+        <li ng-show="token != ''"><a href="#!/admin_ticket">Quản lý vé máy bay</a></li>
+        <li ng-show="token != ''"><a href="#!/admin_flight">Quản lý chuyến bay</a></li>
+        <li ng-show="token != ''"><a href="#!/admin_location">Quản lý các địa điểm</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-hide="token != ''"><a href="#!/login">Login</a></li>
+        <li ng-show="token != ''"><a href="javascript:void(0)"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+</nav>

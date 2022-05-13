@@ -1,0 +1,299 @@
+<div ng-include="'components/Header/header.html'"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label class="bold">Chọn một chuyến bay:</label>
+            </div>
+            <div class="col-md-10">
+                <dropdown-select dd-model='FlightSchedule' dd-data='ListFlightSchedule' dd-label='flight_name' dd-change="GetListTicket()"></dropdown-select>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="FlightSchedule">
+            <h2>Danh sách các vé được đặt</h2>
+        </div>
+        <!-- <div class="col-md-12 margin-top-10">
+            <a href="#!/dashboard" class="btn btn-warning" >Đặt vé máy bay</a>
+        </div> -->
+        <div class="col-md-12 margin-top-10">
+            <table ng-table="ListTicketByScheduleParams" class="table" show-filter="true" ng-show="FlightSchedule">
+                <tr ng-repeat="p in $data track by $index">
+                    <td title="'STT'" class="text-center">{{$index+1}}</td>
+                    <td title="'Số hiệu chuyến bay'" filter="{ flight_no: 'text'}" sortable="'flight_no'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>
+                    <td title="'Số ghế'" class="text-center" filter="{ seat_number: 'text'}" sortable="'seat_number'">{{p.seat_number}}</td>
+                    <td title="'Trạng thái'" class="text-center" sortable="'booking_state'">{{p.booking_state === 'AVAILABLE' ? 'Chưa được đặt' : 'Đã được đặt'}}</td>
+                    <td title="'Thông tin vé'">
+                        <span><b>Khởi hành từ:</b> {{p.from_airport.cityName}} ({{p.from_airport.countryName}})</span>
+                        <br/>
+                        <span><b>Đến:</b> {{p.to_airport.cityName}} ({{p.to_airport.countryName}})</span>
+                    </td>
+                    <td title="'Sửa/Xoá'" class="text-center">
+                        <span ng-click="EditTicketInfo(p)" style="color: rgb(9, 172, 136); cursor: pointer;"><i class="fa fa-edit"></i></span> 
+                        <b>/</b> 
+                        <span ng-click="CancelTicket(p)" style="color: red; cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                    </td>
+                </tr>
+              </table>
+        </div>
+
+        <div class="modal fade" id="DetailTicketModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <span style="font-size: 20px; font-weight: bold;">Chi tiết vé máy bay</span>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label class="bold">Giá vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.price.ticket_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Thuế: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.price.tax}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Tổng giá vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.price.total_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Số ghế (Loại vé): </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.seat_number}} ({{TicketInfo.ticket_type}})</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Số ghế: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.seat_number}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Hãng: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.airplane_detail.airplane_name}} ({{TicketInfo.airplane_detail.brand}})</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Trạng thái: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.booking_state === 'BOOKED' ? 'Đã được đặt' : 'Chưa được đặt'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Lộ trình: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p><b>{{TicketInfo.flight_detail.from_airport.city}} ({{TicketInfo.flight_detail.from_airport.country}})</b> tới <b>{{TicketInfo.flight_detail.to_airport.city}} ({{TicketInfo.flight_detail.to_airport.country}})</b></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">Người đặt vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.user.username}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">Email: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.user.email}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">SĐT: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.user.phone}}</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn pull-right" data-dismiss="modal">Đóng</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="EditTicketModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <span style="font-size: 20px; font-weight: bold;">Chỉnh sửa thông tin vé máy bay</span>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            {{TicketEditInfo}}
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label class="bold">Giá vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.price.ticket_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Thuế: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.price.tax}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Tổng giá vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.price.total_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Số ghế (Loại vé): </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.seat_number}} ({{TicketEditInfo.ticket_type}})</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Số ghế: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.seat_number}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Hãng: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.airplane_detail.airplane_name}} ({{TicketEditInfo.airplane_detail.brand}})</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Trạng thái: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.booking_state === 'BOOKED' ? 'Đã được đặt' : 'Chưa được đặt'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10">
+                                <div class="col-md-4">
+                                    <label class="bold">Lộ trình: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p><b>{{TicketEditInfo.flight_detail.from_airport.city}} ({{TicketEditInfo.flight_detail.from_airport.country}})</b> tới <b>{{TicketEditInfo.flight_detail.to_airport.city}} ({{TicketEditInfo.flight_detail.to_airport.country}})</b></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketEditInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">Người đặt vé: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.user.username}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketEditInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">Email: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.user.email}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10" ng-if="TicketEditInfo.user != null">
+                                <div class="col-md-4">
+                                    <label class="bold">SĐT: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketEditInfo.user.phone}}</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn pull-right" data-dismiss="modal">Đóng</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

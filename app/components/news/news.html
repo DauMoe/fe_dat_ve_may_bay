@@ -1,3 +1,4 @@
+<div ng-include="'components/Header/header.html'"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -7,9 +8,9 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <a href="#!/dashboard" class="btn btn-primary pull-right">Tìm kiếm vé</a>
-        </div>
+        </div> -->
 
         <div class="col-md-12">
             <h2>Các tin tức nổi bật trong ngày</h2>
@@ -32,28 +33,20 @@
         <div class="modal fade" id="DetailNewsModal">
             <div class="modal-dialog">
               <div class="modal-content">
-              
-                <!-- Modal Header -->
                 <div class="modal-header">
-                  <h4 class="modal-title">{{NewsInfo.title}}</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span style="font-size: 22px; display: inline-block" class="bold">{{NewsInfo.title}}</span>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                
-                <!-- Modal body -->
                 <div class="modal-body">
                     <img src="{{NewsInfo.mainImagePath}}" width="100%" style="max-height: 300px; object-fit: contain;"/>
                     <p style="margin-top: 10px">{{NewsInfo.content}}</p>
                 </div>
-                
-                <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn pull-right" data-dismiss="modal">Đóng</button>
                 </div>
-                
-              </div>
+                </div>
             </div>
-          </div>
-          
         </div>
     </div>
 </div>
+<div ng-include="'components/Header/Footer.html'"></div>

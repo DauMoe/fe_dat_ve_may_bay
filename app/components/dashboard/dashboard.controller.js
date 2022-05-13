@@ -146,12 +146,13 @@ angular
         }
 
         $scope.SearchTicket = function() {
-            if ($scope.LocationFrom === null) {
+            console.log($scope.LocationFrom);
+            if ($scope.LocationFrom === '') {
                 $window.alert("Chọn địa điểm đi");
                 return;
             }
 
-            if ($scope.LocationTo === null) {
+            if ($scope.LocationTo === '') {
                 $window.alert("Chọn địa điểm đến");
                 return;
             }
@@ -189,14 +190,14 @@ angular
                             $scope.TicketFrom   = r.data.result.list;
                         } else {
                             for (let i of r.data.result.fromList) {
-                                $scope.TicketFrom.push({
+                                $scope.TicketTo.push({
                                     ...i,
                                     display: `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
                                 });
                             }
 
                             for (let i of r.data.result.toList) {
-                                $scope.TicketTo.push({
+                                $scope.TicketFrom.push({
                                     ...i,
                                     display: `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
                                 });

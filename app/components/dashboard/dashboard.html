@@ -1,5 +1,5 @@
 <!-- https://saravanajd.github.io/Angularjs-Dropdown-Search/ -->
-
+<div ng-include="'components/Header/header.html'"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -213,9 +213,9 @@
                                 <span>- Không áp dụng đổi tên</span>
                             </div>
     
-                            <div style="margin-top:20px">
+                            <!-- <div style="margin-top:20px">
                                 <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p)">ĐẶT VÉ NGAY!</button>
-                            </div>
+                            </div> -->
     
                         </div>
                       </div>
@@ -299,15 +299,41 @@
                                 <span>- Không áp dụng đổi tên</span>
                             </div>
     
-                            <div style="margin-top:20px">
+                            <!-- <div style="margin-top:20px">
                                 <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p)">ĐẶT VÉ NGAY!</button>
-                            </div>
+                            </div> -->
     
                         </div>
                       </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 30px">
+            <h3>Lưu ý trước khi bay: </h3>
+        </div>
+
+        <div class="col-md-12" style="background-color: rgb(201, 17, 4); color: white; padding-top: 15px; padding-bottom: 15px; margin: 0 15px 0 15px; border-radius: 8px;">
+            <h4 style="text-transform: uppercase;">hướng dẫn khai báo y tế trước khi bay</h4>
+            <ol>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Đối với hành khách cư trú/lưu trú tại địa bàn có dịch cấp 4, khu vực phong toả HOẶC thực hiện chuyến bay xuất phát từ địa bàn có dịch cấp 4, khu vực phong toả:<br/>- Phải có kết quả xét nghiệm âm tính với SARS+Cov_2 theo phương pháp RT-PCR hoặc xét nghiệm nhanh kháng nguyên có giá trị trong vòng 72 giờ</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Hành khách không được tham gia chuyến bay khi có các triệu chứng ho, sốt, khó thở, đau mỏi cơ, đau rát họng, mất vị giác, v.v.</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Và cũng cần khai báo y tết trước khu làm thủ tục bay qua ứng dụng PC-COVID. Tờ khai y tế tại đường dẫn <a href="https://vietnamkhoemanh.vn/khaibao-yte" style="color: rgb(255, 255, 255); text-decoration: underline;" target="_blank">https://vietnamkhoemanh.vn/khaibao-yte</a> (Quý khách khai báo xong vui lòng lưu lại QR Code để làm thủ tục)</li>
+            </ol>
+        </div>
+
+
+        <div class="col-md-12" style="background-color: rgb(197, 197, 197); color: rgb(0, 0, 0); padding-top: 15px; padding-bottom: 15px; margin: 30px 15px 0 15px; border-radius: 8px;">
+            <h4>6 lý do đặt vé máy bay tại Abay</h4>
+            <ul>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Luôn bán đúng giá</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Xuất hoá đơn trong ngày</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Xác nhận đặt vé sau 1 phút</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Phục vụ 24/7 không nghỉ</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Hậu mãi chuyên nghiệp</li>
+                <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Công ty bán vé máy bay online đầu tiên. Hơn 10 năm kinh nghiệm</li>
+            </ul>
         </div>
 
         <div class="modal fade" id="BookingTicketModal">
@@ -359,3 +385,4 @@
         </div>
     </div>
 </div>
+<div ng-include="'components/Header/Footer.html'"></div>
