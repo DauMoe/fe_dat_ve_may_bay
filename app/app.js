@@ -11,7 +11,7 @@ angular
     ])
     .run(function($rootScope, $window, $location) {
         $rootScope.host         = "http://localhost:8080/";
-        $rootScope.token        = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjUyMTg2NTUyLCJleHAiOjE2NTI3OTEzNTJ9.U6qaDNZpVqlvScPCF5QSznlVPQJRZTAAzl-j-kWYxUpaG9p780vhoe_laIuljygYvP-pghFYQRmOcXR7iKocGQ";
+        $rootScope.token        = localStorage.getItem("token") || "";
         $rootScope.CatchEx      = function(e) {
             if (e.hasOwnProperty("code")) {
                 if (e.code !== 200) {
@@ -23,10 +23,10 @@ angular
         };
 
         $rootScope.SignOut = function() {
+            $rootScope.token = "";
             localStorage.removeItem("token");
             localStorage.removeItem("username");
             localStorage.removeItem("role_name");
-            $location.path("#!/login");
         };
     })
     .config(function($locationProvider, $routeProvider) {
@@ -49,6 +49,11 @@ angular
             .when('/admin_ticket', {
                 templateUrl : 'components/admin_ticket/admin_ticket.html',
                 controller  : 'AdminTicketController',
+                // css         : 'components/admin_ticket/admin_ticket.css'
+            })
+            .when('/admin_location', {
+                templateUrl : 'components/admin_location/admin_location.html',
+                controller  : 'AdminLocationController',
                 // css         : 'components/admin_ticket/admin_ticket.css'
             })
             .otherwise({ redirectTo: '/news' });

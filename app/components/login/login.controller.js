@@ -8,10 +8,9 @@ angular
         var CatchException  = $rootScope.CatchException;
 
         $scope.LoginData = {
-            SaveSession: true,
-            email: "",
+            email: "phamphilong4101999@gmail.com",
             email_err: "",
-            password: "",
+            password: "123",
             pass_err: ""
         };
 
@@ -39,7 +38,7 @@ angular
                         localStorage.setItem("token", response.data.result.token);
                         localStorage.setItem("username", response.data.result.username);
                         localStorage.setItem("role_name", $rootScope.role_name);
-                        $location.path("/dashboard");
+                        $location.path("/admin_ticket");
                     } else {
                         $scope.LoginData.email_err = response.data.result;
                     }

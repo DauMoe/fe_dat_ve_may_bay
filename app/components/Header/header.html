@@ -12,7 +12,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="token != ''"><a href="#!/login">Login</a></li>
-        <li ng-show="token != ''"><a href="javascript:void(0)"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li ng-show="token != ''"><a href="javascript:void(0)" ng-click="SignOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
 </nav>

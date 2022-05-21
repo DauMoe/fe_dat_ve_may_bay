@@ -33,8 +33,7 @@ angular
                                 flight_name: `${i.flight_no} (${i.from_airport.city}-${i.to_airport.city})`
                             });
                         }
-                        $scope.FlightSchedule = $scope.ListFlightSchedule[0];
-                        fnGetListTicket()
+                        $scope.FlightSchedule = null;
                     }
                 })
                 .catch(CatchEx)

@@ -27,6 +27,7 @@ angular
 
         function init() {
             $("#loading_md").modal('show');
+            $("#BookingTicketModal").modal('show');
             $q.all([GetListLocation()])
                 .then(function(r) {
                     let HasErr = false;
@@ -85,12 +86,20 @@ angular
                 $scope.SelectedFlight.name          = '';
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
+                $scope.ListPassenger                = [{
+                    type: 1,
+                    num_of_pass: 1
+                }];
             } else {
                 $scope.SelectedFlight.name          = '';
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
                 $scope.SelectedFlight.ToTicket      = null;
                 $scope.SelectedFlight.FromTicket    = null;
+                $scope.ListPassenger                = [{
+                    type: 1,
+                    num_of_pass: 1
+                }];
             }
             $("#BookingTicketModal").modal('show');
         }

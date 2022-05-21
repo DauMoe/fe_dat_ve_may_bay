@@ -9,14 +9,17 @@
                 <dropdown-select dd-model='FlightSchedule' dd-data='ListFlightSchedule' dd-label='flight_name' dd-change="GetListTicket()"></dropdown-select>
             </div>
         </div>
-        <div class="col-md-12" ng-show="FlightSchedule">
-            <h2>Danh sách các vé được đặt</h2>
+
+        <div class="col-md-12" ng-show="ListTicketByScheduleParams.data.length < 1">
+            <h2>Không có vé nào của chuyến bay này</h2>
         </div>
-        <!-- <div class="col-md-12 margin-top-10">
-            <a href="#!/dashboard" class="btn btn-warning" >Đặt vé máy bay</a>
-        </div> -->
+
+        <div class="col-md-12" ng-show="ListTicketByScheduleParams.data.length > 0">
+            <h2>Danh sách vé</h2>
+        </div>
+        
         <div class="col-md-12 margin-top-10">
-            <table ng-table="ListTicketByScheduleParams" class="table" show-filter="true" ng-show="FlightSchedule">
+            <table ng-table="ListTicketByScheduleParams" class="table" show-filter="true" ng-show="ListTicketByScheduleParams.data.length > 0">
                 <tr ng-repeat="p in $data track by $index">
                     <td title="'STT'" class="text-center">{{$index+1}}</td>
                     <td title="'Số hiệu chuyến bay'" filter="{ flight_no: 'text'}" sortable="'flight_no'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>

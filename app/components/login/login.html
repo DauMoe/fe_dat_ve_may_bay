@@ -1,16 +1,54 @@
-<div class="login_container" style="min-height: 100vh;">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <div class="login_slide" id="login_slide"></div>
-            </div>
-            <div class="col-md-6">
+<style>
+    .login_container {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: antiquewhite;
+        background-image: url("components/Media/login_bg.jpg");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .login_modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 40px 60px;
+        border-radius: 30px;
+        background-color: #2a719dbe;
+        max-width: 500px;
+        min-width: 300px;
+        min-height: 100px;
+    }
+</style>
+
+<div class="login_container">
+    <div class="login_modal">
+        
+        <form novalidate>
+            <div class="text-center">
                 <img ng-src="components/Media/logo.svg" width="100%" alt="easy flight logo"/>
             </div>
-        </div>
+            <div style="margin-top: 20px">
+                <label style="color: white" id="email">Email:</label>
+                <input class="form-control" id="email" type="text" ng-model="LoginData.email" placeholder="Email"/>
+                <small style="color: #ff6565;">{{LoginData.email_err}}</small>
+            </div>
+            <div style="margin-top: 10px">
+                <label style="color: white" id="password">Mật khẩu:</label>
+                <input class="form-control" id="password" type="password" ng-model="LoginData.password" placeholder="Mật khẩu"/>
+                <small style="color: #ff6565;">{{LoginData.pass_err}}</small>
+            </div>
+            <div style="margin-top: 50px">
+                <button type="submit" ng-click="Login()" class="btn btn-block" style="text-transform: uppercase;">Đăng nhập</button>
+            </div>
+        </form>
     </div>
 </div>
-
 
 <!-- <div class="login_container">
     <div class="login-left">
