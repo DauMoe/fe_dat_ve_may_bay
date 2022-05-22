@@ -14,7 +14,7 @@
                 <div class="col-md-6">
                     <div>
                         <label style="color: white; font-size: 16px;">Chọn điểm đi</label>
-                        <dropdown-select dd-model='LocationFrom' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                        <dropdown-select class="form-control" dd-model='LocationFrom' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
                     </div>
 
                     <div style="margin-top: 20px;">
@@ -25,7 +25,7 @@
                 <div class="col-md-6">
                     <div>
                         <label style="color: white; font-size: 16px;">Chọn điểm đến</label>
-                        <dropdown-select dd-model='LocationTo' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                        <dropdown-select class="form-control" dd-model='LocationTo' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
                     </div>
 
                     <div style="margin-top: 20px;">
@@ -51,7 +51,7 @@
                             <img width="100%" src="{{p.link_image_brand}}"/>
                         </div>
                         <div style="flex: 1" class="text-center">
-                            <span>VNJ123</span>
+                            <span>{{p.flight_no}}</span>
                         </div>
                         <div style="flex: 1" class="text-center">
                             <span>{{p.start_time}} - {{p.end_time}}</span>
@@ -92,7 +92,7 @@
                             </div>
 
                             <div style="flex: 1;" class="text-center">
-                                <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                                <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
                             </div>
 
                             <div style="flex: 1;" class="text-center">
@@ -118,7 +118,7 @@
                         </div>
 
                         <div style="margin-top:20px">
-                            <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white;" ng-click="OrderTicket(p, 0)">ĐẶT VÉ NGAY!</button>
+                            <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white; margin-bottom: 10px;" ng-click="OrderTicket(p, 0)">ĐẶT VÉ NGAY!</button>
                         </div>
 
                     </div>
@@ -147,7 +147,7 @@
                                 <img width="100%" src="{{p.link_image_brand}}"/>
                             </div>
                             <div style="flex: 1" class="text-center">
-                                <span>VNJ123</span>
+                                <span>{{p.flight_no}}</span>
                             </div>
                             <div style="flex: 1" class="text-center">
                                 <span>{{p.start_time}} - {{p.end_time}}</span>
@@ -188,7 +188,7 @@
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                                    <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
@@ -274,7 +274,7 @@
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Giá vé</b><br/>{{p.detail.price.ticket_price}} VNĐ
+                                    <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
@@ -350,24 +350,40 @@
                 <div class="modal-body">
                   <div class="row">
                         <div class="col-md-12">
-                            <label class="bold">Tên hành khách:</label>
+                            <label class="bold">Tên liên hệ:</label>
                             <input class="form-control" ng-model="SelectedFlight.name"/>
                         </div>
                         <div class="col-md-12" style="margin-top: 10px;">
                             <label class="bold">Số điện thoại:</label>
-                            <input class="form-control" ng-model="SelectedFlight.phone"/>
+                            <input class="form-control" type="number" ng-model="SelectedFlight.phone"/>
                         </div>
                         <div class="col-md-12" style="margin-top: 10px;">
                             <label class="bold">Email:</label>
-                            <input class="form-control" ng-model="SelectedFlight.email"/>
+                            <input class="form-control" type="email" ng-model="SelectedFlight.email"/>
                         </div>
                         <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
                             <label class="bold">Chọn vé chiều đi:</label>
-                            <dropdown-select dd-model='SelectedFlight.FromTicket' dd-data='TicketFrom' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
+                            <dropdown-select class="form-control" dd-model='SelectedFlight.FromTicket' dd-data='TicketFrom' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
                         </div>
                         <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
                             <label class="bold">Chọn vé chiều về:</label>
-                            <dropdown-select dd-model='SelectedFlight.ToTicket' dd-data='TicketTo' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
+                            <dropdown-select class="form-control" dd-model='SelectedFlight.ToTicket' dd-data='TicketTo' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
+                        </div>
+                        <div ng-repeat="p in SelectedFlight.ListPassenger track by $index">
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <div class="col-md-3" style="padding: 0px;">
+                                    <dropdown-select class="form-control" dd-model='p.type' dd-data='ListPassengerType' dd-label='name' dd-change="ChangePassengerType()"></dropdown-select>
+                                </div>
+                                <div class="col-md-8" style="padding-right: 0px;">
+                                    <input class="form-control" type="number" ng-model="p.num_of_pass"/>
+                                </div>
+                                <div class="col-md-1 text-center">
+                                    <span ng-click="RemovePassenger($index)" style="color: red; cursor: pointer;"><i class="fa fa-2x fa-times" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px">
+                            <button class="btn btn-warning pull-right" ng-click="AddPassenger()">Thêm người</button>
                         </div>
                   </div>
                 </div>

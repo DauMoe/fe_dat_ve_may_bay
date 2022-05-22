@@ -15,6 +15,17 @@ angular
         $scope.date_from        = "08/03/2022";
         $scope.date_to          = null;
         $scope.ListLocation     = [];
+
+        $scope.ListPassengerType= [{
+            id: 1,
+            name: "Người lớn"
+        }, {
+            id: 2,
+            name: "Trẻ em"
+        }, {
+            id: 3,
+            name: "Trẻ sơ sinh"
+        }]
       
         $(document).ready(function() {
             $('.datepicker').datepicker({
@@ -27,7 +38,6 @@ angular
 
         function init() {
             $("#loading_md").modal('show');
-            $("#BookingTicketModal").modal('show');
             $q.all([GetListLocation()])
                 .then(function(r) {
                     let HasErr = false;
@@ -79,15 +89,20 @@ angular
             }
         }
 
-        $scope.OrderTicket = function(p, isGoBack = false) {
+        $scope.ChangePassengerType = function() {
+            // console.log($scope.SelectedFlight);
+        }
+
+        $scope.OrderTicket = OrderTicket;
+        function OrderTicket(p, isGoBack = false) {
             $scope.SelectedFlight = {};
             if (!isGoBack || p != null) {
                 $scope.SelectedFlight               = JSON.parse(JSON.stringify(p));
                 $scope.SelectedFlight.name          = '';
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
-                $scope.ListPassenger                = [{
-                    type: 1,
+                $scope.SelectedFlight.ListPassenger = [{
+                    type: $scope.ListPassengerType[0],
                     num_of_pass: 1
                 }];
             } else {
@@ -96,12 +111,27 @@ angular
                 $scope.SelectedFlight.email         = '';
                 $scope.SelectedFlight.ToTicket      = null;
                 $scope.SelectedFlight.FromTicket    = null;
-                $scope.ListPassenger                = [{
-                    type: 1,
+                $scope.SelectedFlight.ListPassenger = [{
+                    type: $scope.ListPassengerType[0],
                     num_of_pass: 1
                 }];
             }
             $("#BookingTicketModal").modal('show');
+        }
+
+        $scope.RemovePassenger = function(index) {
+            if ($scope.SelectedFlight.ListPassenger.length > 1) {
+                $scope.SelectedFlight.ListPassenger.splice(index, 1);
+            } else {
+                $window.alert("Phải có ít nhất một hành khách");
+            }
+        }
+
+        $scope.AddPassenger = function() {
+            $scope.SelectedFlight.ListPassenger.push({
+                type: '',
+                num_of_pass: 0
+            });
         }
 
         $scope.BookTicket = function() {
@@ -126,15 +156,49 @@ angular
                     return;
                 }
             }
+
+            if ($scope.SelectedFlight.ListPassenger.length == 0) {
+                $window.alert("Phải có ít nhất một hành khách!");
+                return;
+            }
+
+            for (let i of $scope.SelectedFlight.ListPassenger) {
+                if (i.type == '') {
+                    $window.alert("Vui lòng chọn đầy đủ loại hành khách cho mỗi ghế ngồi!");
+                    return;
+                }
+
+                if (i.num_of_pass <= 0) {
+                    $window.alert("Số lượng hành khách phải lớn hơn 0");
+                    return;
+                }
+            }
+
+            console.log($scope.SelectedFlight);
+
             reqData                 = {};
             reqData.namePassenger   = $scope.SelectedFlight.name;
             reqData.phoneNumber     = $scope.SelectedFlight.phone;
             reqData.email           = $scope.SelectedFlight.email;
-            reqData.ticketIdTo      = $scope.SelectedFlight.ticket_id;
-            if ($scope.SelectedFlight.FromTicket !== null && $scope.SelectedFlight.ToTicket !== null) {
+            reqData.ticketIdTo      = $scope.SelectedFlight.ticketId[0];
+            if ($scope.TicketFrom.length > 0 && $scope.TicketTo.length > 0) {
                 reqData.ticketIdBack    = $scope.SelectedFlight.ToTicket.ticket_id;
                 reqData.ticketIdTo      = $scope.SelectedFlight.FromTicket.ticket_id;
             }
+            reqData.totalAdult      = 0;
+            reqData.totalChildren   = 0;
+            reqData.totalBaby       = 0;
+
+            for (let i of $scope.SelectedFlight.ListPassenger) {
+                if (i.type.id === 1) {
+                    reqData.totalAdult += i.num_of_pass
+                } else if (i.type.id === 2) {
+                    reqData.totalChildren += i.num_of_pass
+                } else if (i.type.id === 3) {
+                    reqData.totalBaby += i.num_of_pass
+                }
+            }
+
             $("#loading_md").modal('show');
             DashboardService.BookTicketAPI(reqData)
                 .then(function(r) {
@@ -155,7 +219,7 @@ angular
         }
 
         $scope.SearchTicket = function() {
-            console.log($scope.LocationFrom);
+            // console.log($scope.LocationFrom);
             if ($scope.LocationFrom === '') {
                 $window.alert("Chọn địa điểm đi");
                 return;
@@ -196,7 +260,21 @@ angular
                         $scope.TicketFrom   = [];
                         $scope.TicketTo     = [];
                         if ($scope.date_to === null) {
-                            $scope.TicketFrom   = r.data.result.list;
+                            let ExistedTicket = [];
+                            $scope.TicketFrom = [];
+                            for (let i of r.data.result.list) {
+                                const index = ExistedTicket.indexOf(`${i.flightId}-${i.flight_schedule_id}`);
+                                if (index === -1) {
+                                    ExistedTicket.push(`${i.flightId}-${i.flight_schedule_id}`);
+                                    $scope.TicketFrom.push({
+                                        ...i,
+                                        ticketId: [i.ticket_id]
+                                    })
+                                } else {
+                                    $scope.TicketFrom[index].ticketId.push(i.ticket_id);
+                                }
+                            }
+                            console.log($scope.TicketFrom);
                         } else {
                             for (let i of r.data.result.fromList) {
                                 $scope.TicketTo.push({
