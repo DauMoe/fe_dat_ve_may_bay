@@ -47,4 +47,90 @@ angular
             $scope.NewsInfo = p;
             $("#DetailNewsModal").modal('show');
         }
+
+        $scope.DeletePost = function(p) {
+            const cf = $window.confirm("Chắc chắn xoá bài viết?");
+            if (cf) {
+                $("#loading_md").modal('show');
+                NewsService.DeletePostAPI(p.flightNewsId)
+                    .then(r => {
+                        if (r.data.code === 200) {
+                            init();
+                            $window.alert("Xoá thành công");
+                        } else CatchEx(r.data);
+                    })
+                    .catch(CatchEx)
+                    .finally(() => $("#loading_md").modal('hide'));   
+            }
+        }
+
+        $scope.AddPost = AddPost;
+        function AddPost() {
+            $scope.PostInfo = {
+                title       : "a",
+                content     : "a",
+                author      : "a",
+                fileImage   : null,
+            }
+            angular.element('#uploadThumnail').val(null);
+            $("#AddPostModal").modal('show');
+        }
+        
+        $scope.chooseFile = function(e) {
+            $scope.PostInfo.fileImage = e.target.files[0];
+            if ($scope.PostInfo.fileImage != null) {
+                var extension = $scope.PostInfo.fileImage.name.substring($scope.PostInfo.fileImage.name.lastIndexOf('.') + 1);
+                if (!(extension == 'png' || extension == 'jpg' || extension == 'jpeg')) {
+                    alert('File không đúng định dạng!');
+                    $scope.PostInfo.fileImage = null;
+                } else {
+                    var reader      = new FileReader();
+                    reader.onload   = function(event) {
+                        $scope.PostInfo.fileImage = e.target.files[0];
+                    };
+                    reader.onerror = function(ex) {};
+                    reader.readAsBinaryString($scope.PostInfo.fileImage);
+                }
+            }
+        }
+
+        $scope.CreatePost = function() {
+            if ($scope.PostInfo.tilte == "") {
+                $window.alert("Điền tiêu đề");
+                return;
+            }
+
+            if ($scope.PostInfo.content == "") {
+                $window.alert("Hãy viết nội dung gì đó");
+                return;
+            }
+
+            if ($scope.PostInfo.author == "") {
+                $window.alert("Điền tên tác giả");
+                return;
+            }
+
+            if ($scope.PostInfo.fileImage == null) {
+                $window.alert("Chọn một file ảnh");
+                return;
+            }
+
+            const reqDataFD = new FormData();
+            reqDataFD.append("title", $scope.PostInfo.title);
+            reqDataFD.append("content", $scope.PostInfo.content);
+            reqDataFD.append("author", $scope.PostInfo.author);
+            reqDataFD.append("fileImage", $scope.PostInfo.fileImage);
+            reqDataFD.append("extraImage", $scope.PostInfo.fileImage);
+            $("#loading_md").modal('show')
+            NewsService.CreatePostAPI(reqDataFD)
+                .then(r => {
+                    if (r.data.code === 200) {
+                        $("#AddPostModal").modal('hide');
+                        init();
+                        $window.alert("Thành công");
+                    } else CatchEx(r.data);
+                })
+                .catch(CatchEx)
+                .finally(() => $("#loading_md").modal('hide'));
+        }
     });

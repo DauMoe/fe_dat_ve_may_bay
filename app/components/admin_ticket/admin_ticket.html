@@ -6,7 +6,7 @@
                 <label class="bold">Chọn một chuyến bay:</label>
             </div>
             <div class="col-md-10">
-                <dropdown-select dd-model='FlightSchedule' dd-data='ListFlightSchedule' dd-label='flight_name' dd-change="GetListTicket()"></dropdown-select>
+                <dropdown-select class="form-control" dd-model='FlightSchedule' dd-data='ListFlightSchedule' dd-label='flight_name' dd-change="GetListTicket()"></dropdown-select>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                     <td title="'STT'" class="text-center">{{$index+1}}</td>
                     <td title="'Số hiệu chuyến bay'" filter="{ flight_no: 'text'}" sortable="'flight_no'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>
                     <td title="'Số ghế'" class="text-center" filter="{ seat_number: 'text'}" sortable="'seat_number'">{{p.seat_number}}</td>
-                    <td title="'Trạng thái'" class="text-center" sortable="'booking_state'">{{p.booking_state === 'AVAILABLE' ? 'Chưa được đặt' : 'Đã được đặt'}}</td>
+                    <td title="'Trạng thái'" class="text-center" sortable="'booking_state'">{{p.booking_state === 'AVAILABLE' ? 'Vẫn đang trống' : 'Đặt vé thành công'}}</td>
                     <td title="'Thông tin vé'">
                         <span><b>Khởi hành từ:</b> {{p.from_airport.cityName}} ({{p.from_airport.countryName}})</span>
                         <br/>
@@ -55,12 +55,30 @@
                     <div class="modal-body">
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-12" ng-if="TicketInfo.price.adult_price">
                                 <div class="col-md-4">
-                                    <label class="bold">Giá vé: </label>
+                                    <label class="bold">Giá ghế người lớn: </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{TicketInfo.price.ticket_price}} VNĐ</p>
+                                    <p>{{TicketInfo.price.adult_price.price}} * {{TicketInfo.price.adult_price.number_people}} = {{TicketInfo.price.adult_price.total_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-if="TicketInfo.price.children_price">
+                                <div class="col-md-4">
+                                    <label class="bold">Giá ghế trẻ em: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.price.children_price.price}} * {{TicketInfo.price.children_price.number_people}} = {{TicketInfo.price.children_price.total_price}} VNĐ</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-if="TicketInfo.price.baby_price">
+                                <div class="col-md-4">
+                                    <label class="bold">Giá ghế trẻ sơ sinh: </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>{{TicketInfo.price.baby_price.price}} * {{TicketInfo.price.baby_price.number_people}} = {{TicketInfo.price.baby_price.total_price}} VNĐ</p>
                                 </div>
                             </div>
 
@@ -84,25 +102,6 @@
 
                             <div class="col-md-12 margin-top-10">
                                 <div class="col-md-4">
-                                    <label class="bold">Số ghế (Loại vé): </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{TicketInfo.seat_number}} ({{TicketInfo.ticket_type}})</p>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-12 margin-top-10">
-                                <div class="col-md-4">
-                                    <label class="bold">Số ghế: </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>{{TicketInfo.seat_number}}</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 margin-top-10">
-                                <div class="col-md-4">
                                     <label class="bold">Hãng: </label>
                                 </div>
                                 <div class="col-md-8">
@@ -115,7 +114,7 @@
                                     <label class="bold">Trạng thái: </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{TicketInfo.booking_state === 'BOOKED' ? 'Đã được đặt' : 'Chưa được đặt'}}</p>
+                                    <p>{{TicketInfo.booking_state === 'BOOKED' ? 'Đặt vé thành công' : 'Vẫn đang trống'}}</p>
                                 </div>
                             </div>
 
@@ -245,7 +244,7 @@
                                     <label class="bold">Trạng thái: </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{TicketEditInfo.booking_state === 'BOOKED' ? 'Đã được đặt' : 'Chưa được đặt'}}</p>
+                                    <p>{{TicketEditInfo.booking_state === 'BOOKED' ? 'Đặt vé thành công' : 'Vẫn đang trống'}}</p>
                                 </div>
                             </div>
 
@@ -297,6 +296,9 @@
                 </div>
             </div>
         </div>
-
     </div>
+</div>
+
+<div style="position: fixed; bottom: 20px; right: 20px; padding: 9px 12px; border-radius: 50%; background-color: aqua;" ng-if="token != ''" ng-click="AddFlightSchedule()">
+    <span style="color: white"><i class="fa fa-2x fa-plus" aria-hidden="true"></i></span>
 </div>

@@ -56,5 +56,10 @@ angular
                 controller  : 'AdminLocationController',
                 // css         : 'components/admin_ticket/admin_ticket.css'
             })
+            .when('/admin_flight', {
+                templateUrl : 'components/admin_flight/admin_flight.html',
+                controller  : 'AdminFlightController',
+                // css         : 'components/admin_ticket/admin_ticket.css'
+            })
             .otherwise({ redirectTo: '/news' });
     });

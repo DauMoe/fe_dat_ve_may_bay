@@ -49,6 +49,7 @@ angular
         }
 
         function fnGetListTicket() {
+            if ($scope.FlightSchedule == "") return;
             $("#loading_md").modal('show');
             AdminTicketService.GetTicketByFlightScheduleAPI($scope.FlightSchedule.flight_schedule_id)
                 .then(function(r) {
@@ -97,5 +98,9 @@ angular
                 console.log($scope.TicketEditInfo);
                 $("#EditTicketModal").modal('show');   
             }
+        }
+
+        $scope.AddFlightSchedule = function() {
+            
         }
     });

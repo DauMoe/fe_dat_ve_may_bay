@@ -21,6 +21,22 @@ angular
             },
             BookTicketAPI: (reqData) => {
                 return $http.post(HOST + "book/create", reqData);
+            },
+            DeletePostAPI: (post_id) => {
+                $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
+                return $http.get(HOST + "api/admin/flight-news/delete?id=" + post_id);
+            },
+            CreatePostAPI: (reqData) => {
+                $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
+                return $http({
+                    url: HOST + "api/admin/flight-news/save",
+                    method: 'POST',
+                    data: reqData,
+                    headers: { 
+                        'Authorization' : "Bearer " + TOKEN, 
+                        'Content-Type'  : undefined
+                    }
+                });
             }
         };
     });

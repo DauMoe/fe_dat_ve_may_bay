@@ -117,7 +117,7 @@
             $document.on('mouseup', onDocumentMouseUp);
 
             $scope.$on('$destroy', function () {
-              element.off('click', onDropDownSelectClick);
+              $element.off('click', onDropDownSelectClick);
               $document.off('mouseup', onDocumentMouseUp);
             });
           }
