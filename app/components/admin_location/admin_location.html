@@ -1,56 +1,63 @@
 <div ng-include="'components/Header/header.html'"></div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            
-            <div id="location_accordion">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Collapsible Group Item #1
-                      </button>
-                    </h5>
-                  </div>
-              
-                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#location_accordion">
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Collapsible Group Item #2
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#location_accordion">
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Collapsible Group Item #3
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#location_accordion">
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div class="col-md-12">
+    <button class="btn btn-info pull-right" ng-click="AddLocation()">Thêm vị trí sân bay</button>
+  </div>
+  <h2>Danh sách các địa điểm sân bay</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Quốc gia / Lãnh thổ</th>
+        <th class="text-center">Vị trí sân bay</th>
+        <th class="text-center">Chức năng</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="p in ListLocation" ng-init="parentIndex = $index">
+      <tr class="{{ListClass[parentIndex%ListClass.length]}}" ng-repeat="x in p.cities track by $index">
+        <td style="vertical-align: middle;" rowspan="{{p.cities.length}}" ng-if="$index == 0"><b>{{p.country_name}}</b></td>
+        <td style="vertical-align: middle;">{{x.city_name}}</td>
+        <td style="vertical-align: middle;" class="text-center">
+          <span style="color: red; cursor: pointer;" ng-click="DeleteLocation(x)"><i class="fa fa-times" aria-hidden="true"></i></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-
+<div class="modal fade" id="AddLocationModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <span style="font-size: 20px;">Tạo vị trí sân bay</span>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <label>Tên quốc gia:</label>
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" ng-model="LocationInfo.country_name"/>
+          </div>
+          <div class="col-md-12" style="margin-top: 10px;">
+            <label>Tên thành phố:</label>
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" ng-model="LocationInfo.city_name"/>
+          </div>
+          <div class="col-md-12" style="margin-top: 10px;">
+            <label>Tên sân bay:</label>
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" ng-model="LocationInfo.airport_name"/>
+          </div>
         </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn pull-right" data-dismiss="modal">Huỷ</button>
+          <button type="button" class="btn btn-info pull-right" style="margin-right: 10px;" ng-click="CreateLocation()">Tạo vị trí sân bay</button>
+      </div>
     </div>
+  </div>
 </div>

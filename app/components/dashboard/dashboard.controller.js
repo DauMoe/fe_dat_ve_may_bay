@@ -11,8 +11,8 @@ angular
         const CatchEx           = $rootScope.CatchEx;       
         $scope.LocationFrom     = null;
         $scope.LocationTo       = null;
-        $scope.date_from        = moment().format("DD/MM/YYYY");
-        // $scope.date_from        = "08/03/2022";
+        // $scope.date_from        = moment().format("DD/MM/YYYY");
+        $scope.date_from        = "08/03/2022";
         $scope.date_to          = null;
         $scope.ListLocation     = [];
 
