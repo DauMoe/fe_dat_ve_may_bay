@@ -22,6 +22,10 @@ angular
             GetListFlightScheduleAPI: () => {
                 $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
                 return $http.get(HOST + "api/admin/list-flight");
+            },
+            CreateTicket4FlightScheduleAPI: (reqData) => {
+                $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
+                return $http.get(HOST + "api/admin/ticket/create");
             }
         };
     });

@@ -16,15 +16,17 @@
             <h2>Các tin tức nổi bật trong ngày</h2>
         </div>
 
-        <div class="col-md-12" style="margin: 10px 0; cursor: pointer;">
-            <div class="col-md-6" ng-repeat="p in ListNews track by $index" ng-click="DetailNews(p)">
-                <div class="card" style="background-color: #e7e7e7; padding: 10px">
-                    <img class="card-img-top" width="100%" src="{{p.mainImagePath}}" alt="Main Background">
-                    <div class="card-body">
+        <div class="col-md-12">
+            <div class="col-md-6" style="margin: 10px 0; cursor: pointer" ng-repeat="p in ListNews track by $index">
+                <div class="card" style="background-color: #e7e7e7; padding: 10px; border-radius: 10px;">
+                    <img class="card-img-top" ng-click="DetailNews(p)" width="100%" src="{{p.mainImagePath}}" alt="Main Background">
+                    <div class="card-body" ng-click="DetailNews(p)">
                         <h4 class="card-title bold">{{p.title}}</h4>
                         <p class="card-text">{{p.preview_content}}</p>
-                        <small style="text-align: right; font-style: italic; display: block; margin-top: 5px;">Tác giả: {{p.author}} ({{p.createdTime}})</small>
-                      <!-- <a href="#" class="btn btn-primary">Đi tới bài post</a> -->
+                        <small style="text-align: right; font-style: italic; display: block; margin-top: 5px;">Tác giả: {{p.author}}</small>
+                    </div>
+                    <div class="card-footer" style="text-align: right; margin-top: 10px">
+                        <button class="btn btn-danger" ng-if="token != ''" ng-click="DeletePost(p)">Xoá bài viết</button>
                     </div>
                 </div>
             </div>
@@ -86,5 +88,54 @@
             </div>
         </div>
     </div>
+</div>
+<div style="position: fixed; bottom: 20px; right: 20px; padding: 9px 12px; border-radius: 50%; background-color: aqua;" ng-if="token != ''" ng-click="AddPost()">
+    <span style="color: white"><i class="fa fa-2x fa-plus" aria-hidden="true"></i></span>
+</div>
+<div class="modal fade" id="AddPostModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <span style="font-size: 20px;">Tạo bài viết</span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="col-md-12">
+                <label class="bold">Tiêu đề:</label>
+            </div>
+            <div class="col-md-12">
+                <input class="form-control" ng-model="PostInfo.title"/>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 10px">
+                <label class="bold">Nội dung bài viết:</label>
+              </div>
+            <div class="col-md-12">
+                <textarea class="form-control" ng-model="PostInfo.content"></textarea>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 10px">
+                <label class="bold">Tác giả:</label>
+              </div>
+            <div class="col-md-12">
+                <input class="form-control" ng-model="PostInfo.author"/>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 10px">
+                <label class="bold">Ảnh cho bài viết:</label>
+              </div>
+            <div class="col-md-12">
+                <input id="uploadThumnail" type="file" onerror="error" accept=".jpg,.jpeg,.png" onchange="angular.element(this).scope().chooseFile(event)"/>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn pull-right" data-dismiss="modal">Huỷ</button>
+            <button type="button" class="btn btn-info pull-right" style="margin-right: 10px;" ng-click="CreatePost()">Tạo bài viết</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div ng-include="'components/Header/Footer.html'"></div>
