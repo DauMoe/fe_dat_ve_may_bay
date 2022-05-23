@@ -67,9 +67,9 @@ angular
         $scope.AddPost = AddPost;
         function AddPost() {
             $scope.PostInfo = {
-                title       : "a",
-                content     : "a",
-                author      : "a",
+                title       : "",
+                content     : "",
+                author      : "",
                 fileImage   : null,
             }
             angular.element('#uploadThumnail').val(null);
