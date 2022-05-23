@@ -81,18 +81,18 @@
                             <div style="flex: 3">
                                 <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
                                 <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
-                                <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                <span><b>Loại ghế:</b> {{p.detail.ticket_type}}</span><br/>
                                 <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
                             </div>
                         </div>
 
                         <div style="display: flex; margin: 10px 0;">
                             <div style="flex: 1;" class="text-center">
-                                <b>Số lượng vé</b><br/>1
+                                <b>Số lượng ghế</b><br/>1
                             </div>
 
                             <div style="flex: 1;" class="text-center">
-                                <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
+                                <b>Giá tiền một ghế ngồi</b><br/>{{p.detail.price.adult_price.price}} VNĐ
                             </div>
 
                             <div style="flex: 1;" class="text-center">
@@ -118,7 +118,7 @@
                         </div>
 
                         <div style="margin-top:20px">
-                            <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white; margin-bottom: 10px;" ng-click="OrderTicket(p, 0)">ĐẶT VÉ NGAY!</button>
+                            <button type="button" class="btn btn-outline-info btn-block" style="background-color: rgb(24, 107, 80); color: white; margin-bottom: 10px;" ng-click="OrderTicket(p, 0)">ĐẶT CHỖ NGAY!</button>
                         </div>
 
                     </div>
@@ -132,7 +132,7 @@
                 <h2>Kết quả tìm kiếm</h2>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-outline-info btn-block pull-right" ng-click="OrderTicket(null, 1)" style="background-color: rgb(24, 107, 80); color: white;">Đặt vé!</button>
+                <button class="btn btn-outline-info btn-block pull-right" ng-click="OrderTicket(null, 1)" style="background-color: rgb(24, 107, 80); color: white;">ĐẶT CHỖ NGAY!</button>
             </div>
         </div>
 
@@ -140,7 +140,7 @@
             <div class="col-md-6">
                 <h4>Chiều đi</h4>
                 <div id="accordion">
-                    <h4 ng-if="TicketFrom.length == 0">Không có kết quả vé chiều đi!</h4>
+                    <h4 ng-if="TicketFrom.length == 0">Không có kết quả chiều đi!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px;">
@@ -178,18 +178,18 @@
                                 <div style="flex: 3">
                                     <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
                                     <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
-                                    <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                    <span><b>Loại ghế:</b> {{p.detail.ticket_type}}</span><br/>
                                     <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
                                 </div>
                             </div>
     
                             <div style="display: flex; margin: 10px 0;">
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Số lượng vé</b><br/>1
+                                    <b>Số lượng ghế</b><br/>1
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
+                                    <b>Giá tiền một ghế ngồi</b><br/>{{p.detail.price.adult_price.price}} VNĐ
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
@@ -227,7 +227,7 @@
             <div class="col-md-6">
                 <h4>Chiều về</h4>
                 <div id="accordion">
-                    <h4 ng-if="TicketTo.length == 0" class="text-center" style="padding: 20px 0;">Không có kết quả vé chiều về!</h4>
+                    <h4 ng-if="TicketTo.length == 0" class="text-center" style="padding: 20px 0;">Không có kết quả chiều khứ hồi!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketTo track by $index">
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px">
@@ -265,18 +265,18 @@
                                 <div style="flex: 3">
                                     <span><b>Hãng:</b> {{p.detail.airplane_detail.brand}}</span><br/>
                                     <span><b>Máy bay:</b> {{p.detail.airplane_detail.airplane_name}}</span><br/>
-                                    <span><b>Loại vé:</b> {{p.detail.ticket_type}}</span><br/>
+                                    <span><b>Loại ghế:</b> {{p.detail.ticket_type}}</span><br/>
                                     <img width="80%" src="{{p.detail.airplane_detail.link_img_brand}}"/>
                                 </div>
                             </div>
     
                             <div style="display: flex; margin: 10px 0;">
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Số lượng vé</b><br/>1
+                                    <b>Số lượng ghế</b><br/>1
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
-                                    <b>Giá vé</b><br/>{{p.detail.price.total_price - p.detail.price.tax}} VNĐ
+                                    <b>Giá tiền một ghế ngồi</b><br/>{{p.detail.price.adult_price.price}} VNĐ
                                 </div>
     
                                 <div style="flex: 1;" class="text-center">
