@@ -11,9 +11,12 @@ angular
         const CatchEx           = $rootScope.CatchEx;       
         $scope.LocationFrom     = null;
         $scope.LocationTo       = null;
-        $scope.date_from        = moment().format("DD/MM/YYYY");
-        // $scope.date_from        = "08/03/2022";
-        $scope.date_to          = null;
+        $scope.TicketFrom       = null;
+        $scope.TicketTo         = null;
+        $scope.date_from        = "08/03/2022";
+        $scope.date_to          = "09/03/2022";
+        // $scope.date_from        = moment().format("DD/MM/YYYY");
+        // $scope.date_to          = null;
         $scope.ListLocation     = [];
 
         $scope.ListPassengerType= [{
@@ -102,18 +105,20 @@ angular
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
                 $scope.SelectedFlight.ListPassenger = [{
-                    type: $scope.ListPassengerType[0],
-                    num_of_pass: 1
+                    type            : $scope.ListPassengerType[0],
+                    num_of_pass     : 1,
+                    passenger_name  : ""
                 }];
             } else {
                 $scope.SelectedFlight.name          = '';
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
-                $scope.SelectedFlight.ToTicket      = null;
-                $scope.SelectedFlight.FromTicket    = null;
+                $scope.SelectedFlight.ToTicket      = '';
+                $scope.SelectedFlight.FromTicket    = '';
                 $scope.SelectedFlight.ListPassenger = [{
-                    type: $scope.ListPassengerType[0],
-                    num_of_pass: 1
+                    type            : $scope.ListPassengerType[0],
+                    num_of_pass     : 1,
+                    passenger_name  : ""
                 }];
             }
             $("#BookingTicketModal").modal('show');
@@ -150,8 +155,8 @@ angular
                 return;
             }
 
-            if ($scope.TicketFrom.length > 0 && $scope.TicketTo.length > 0) {
-                if ($scope.SelectedFlight.ToTicket == null || $scope.SelectedFlight.FromTicket == null) {
+            if ($scope.TicketFrom != null && $scope.TicketTo != null) {
+                if ($scope.SelectedFlight.ToTicket == '' || $scope.SelectedFlight.FromTicket == '') {
                     $window.alert("Chọn vé chiều đi và về!");
                     return;
                 }
@@ -172,6 +177,11 @@ angular
                     $window.alert("Số lượng hành khách phải lớn hơn 0");
                     return;
                 }
+
+                if (i.passenger_name === "") {
+                    $window.alert("ĐIền đầy đủ tên người bay");
+                    return;
+                }
             }
 
             console.log($scope.SelectedFlight);
@@ -180,10 +190,11 @@ angular
             reqData.namePassenger   = $scope.SelectedFlight.name;
             reqData.phoneNumber     = $scope.SelectedFlight.phone;
             reqData.email           = $scope.SelectedFlight.email;
-            reqData.ticketIdTo      = $scope.SelectedFlight.ticketId[0];
             if ($scope.TicketFrom.length > 0 && $scope.TicketTo.length > 0) {
-                reqData.ticketIdBack    = $scope.SelectedFlight.ToTicket.ticket_id;
-                reqData.ticketIdTo      = $scope.SelectedFlight.FromTicket.ticket_id;
+                reqData.ticketIdBack    = $scope.SelectedFlight.ToTicket.ticketId[0];
+                reqData.ticketIdTo      = $scope.SelectedFlight.FromTicket.ticketId[0];
+            } else {
+                reqData.ticketIdTo      = $scope.SelectedFlight.ticketId[0];
             }
             reqData.totalAdult      = 0;
             reqData.totalChildren   = 0;
@@ -203,7 +214,7 @@ angular
             DashboardService.BookTicketAPI(reqData)
                 .then(function(r) {
                     if (r.data.code === 200) {
-                        $("#BookingTickerModal").modal('hide');
+                        $("#BookingTicketModal").modal('hide');
                         $window.alert("Thành công");
                     } else CatchEx(r.data);
                 })
@@ -219,6 +230,8 @@ angular
         }
 
         $scope.SearchTicket = function() {
+            $scope.TicketFrom   = null;
+            $scope.TicketTo     = null;
             // console.log($scope.LocationFrom);
             if ($scope.LocationFrom === '') {
                 $window.alert("Chọn địa điểm đi");
@@ -257,11 +270,9 @@ angular
             DashboardService.SearchFlightAPI(ListParams.join("&"))
                 .then(function(r) {
                     if (r.data.code == 200) {
-                        $scope.TicketFrom   = [];
-                        $scope.TicketTo     = [];
                         if ($scope.date_to === null) {
-                            let ExistedTicket = [];
                             $scope.TicketFrom = [];
+                            let ExistedTicket = [];
                             for (let i of r.data.result.list) {
                                 const index = ExistedTicket.indexOf(`${i.flightId}-${i.flight_schedule_id}`);
                                 if (index === -1) {
@@ -269,30 +280,47 @@ angular
                                     $scope.TicketFrom.push({
                                         ...i,
                                         ticketId: [i.ticket_id]
-                                    })
+                                    });
                                 } else {
                                     $scope.TicketFrom[index].ticketId.push(i.ticket_id);
                                 }
                             }
-                            console.log($scope.TicketFrom);
                         } else {
+                            $scope.TicketFrom   = [];
+                            $scope.TicketTo     = [];
+                            let FromExistedTicket   = [];
+                            let ToExistedTicket     = [];
                             for (let i of r.data.result.fromList) {
-                                $scope.TicketTo.push({
-                                    ...i,
-                                    display: `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
-                                });
+                                const index = FromExistedTicket.indexOf(`${i.flightId}-${i.flight_schedule_id}`);
+                                if (index === -1) {
+                                    FromExistedTicket.push(`${i.flightId}-${i.flight_schedule_id}`);
+                                    $scope.TicketTo.push({
+                                        ...i,
+                                        ticketId: [i.ticket_id],
+                                        display : `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
+                                    });
+                                } else {
+                                    $scope.TicketFrom[index].ticketId.push(i.ticket_id);
+                                }
                             }
 
                             for (let i of r.data.result.toList) {
-                                $scope.TicketFrom.push({
-                                    ...i,
-                                    display: `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
-                                });
+                                const index = ToExistedTicket.indexOf(`${i.flightId}-${i.flight_schedule_id}`);
+                                if (index === -1) {
+                                    ToExistedTicket.push(`${i.flightId}-${i.flight_schedule_id}`);
+                                    $scope.TicketFrom.push({
+                                        ...i,
+                                        ticketId: [i.ticket_id],
+                                        display : `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
+                                    });
+                                } else {
+                                    $scope.TicketFrom[index].ticketId.push(i.ticket_id);
+                                }
                             }
                         }
                     } else CatchEx(r.data);
                 })
-                .catch(CatchEx)
+                // .catch(CatchEx)
                 .finally(() => $("#loading_md").modal('hide'));
         };
     });

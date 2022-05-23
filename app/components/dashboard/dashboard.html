@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length == 0">
+        <div class="col-md-12" style="margin-top: 20px" ng-if="TicketFrom != null && TicketTo == null">
             <h2>Kết quả tìm kiếm</h2>
             <div id="accordion">
                 <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length > 0">
+        <div class="col-md-12" style="margin-top: 20px" ng-if="TicketFrom != null && TicketTo != null">
             <div class="col-md-6">
                 <h2>Kết quả tìm kiếm</h2>
             </div>
@@ -136,10 +136,11 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="margin-top: 20px" ng-show="TicketFrom.length > 0 && TicketTo.length > 0">
+        <div class="col-md-12" style="margin-top: 20px" ng-if="TicketFrom != null && TicketTo != null">
             <div class="col-md-6">
                 <h4>Chiều đi</h4>
                 <div id="accordion">
+                    <h4 ng-if="TicketFrom.length == 0">Không có kết quả vé chiều đi!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px;">
@@ -226,6 +227,7 @@
             <div class="col-md-6">
                 <h4>Chiều về</h4>
                 <div id="accordion">
+                    <h4 ng-if="TicketTo.length == 0" class="text-center" style="padding: 20px 0;">Không có kết quả vé chiều về!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketTo track by $index">
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px">
@@ -233,7 +235,7 @@
                                 <img width="100%" src="{{p.link_image_brand}}"/>
                             </div>
                             <div style="flex: 1" class="text-center">
-                                <span>VNJ123</span>
+                                <span>{{p.flight_no}}</span>
                             </div>
                             <div style="flex: 1" class="text-center">
                                 <span>{{p.start_time}} - {{p.end_time}}</span>
@@ -325,7 +327,7 @@
 
 
         <div class="col-md-12" style="background-color: rgb(197, 197, 197); color: rgb(0, 0, 0); padding-top: 15px; padding-bottom: 15px; margin: 30px 15px 0 15px; border-radius: 8px;">
-            <h4>6 lý do đặt vé máy bay tại Abay</h4>
+            <h4>6 lý do đặt vé máy bay tại Muavegiare</h4>
             <ul>
                 <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Luôn bán đúng giá</li>
                 <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Xuất hoá đơn trong ngày</li>
@@ -359,13 +361,13 @@
                         </div>
                         <div class="col-md-12" style="margin-top: 10px;">
                             <label class="bold">Email:</label>
-                            <input class="form-control" type="email" ng-model="SelectedFlight.email"/>
+                            <input class="form-control" type="text" ng-model="SelectedFlight.email"/>
                         </div>
-                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
+                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom != null && TicketTo != null">
                             <label class="bold">Chọn vé chiều đi:</label>
                             <dropdown-select class="form-control" dd-model='SelectedFlight.FromTicket' dd-data='TicketFrom' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
                         </div>
-                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom.length > 0 && TicketTo.length > 0">
+                        <div class="col-md-12" style="margin-top: 10px;" ng-if="TicketFrom != null && TicketTo != null">
                             <label class="bold">Chọn vé chiều về:</label>
                             <dropdown-select class="form-control" dd-model='SelectedFlight.ToTicket' dd-data='TicketTo' dd-label='display' dd-change="CheckToTicket()"></dropdown-select>
                         </div>
@@ -374,8 +376,11 @@
                                 <div class="col-md-3" style="padding: 0px;">
                                     <dropdown-select class="form-control" dd-model='p.type' dd-data='ListPassengerType' dd-label='name' dd-change="ChangePassengerType()"></dropdown-select>
                                 </div>
-                                <div class="col-md-8" style="padding-right: 0px;">
+                                <div class="col-md-2" style="padding-right: 0px;">
                                     <input class="form-control" type="number" ng-model="p.num_of_pass"/>
+                                </div>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" ng-model="p.passenger_name" placeholder="Họ tên người bay"/>
                                 </div>
                                 <div class="col-md-1 text-center">
                                     <span ng-click="RemovePassenger($index)" style="color: red; cursor: pointer;"><i class="fa fa-2x fa-times" aria-hidden="true"></i></span>
