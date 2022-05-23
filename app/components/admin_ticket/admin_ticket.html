@@ -33,7 +33,7 @@
                     <td title="'Sửa/Xoá'" class="text-center">
                         <span ng-click="EditTicketInfo(p)" style="color: rgb(9, 172, 136); cursor: pointer;"><i class="fa fa-edit"></i></span> 
                         <b>/</b> 
-                        <span ng-click="CancelTicket(p)" style="color: red; cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                        <span ng-click="CancelTicket(p)" style="color: red; cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></span>
                     </td>
                 </tr>
               </table>
@@ -283,8 +283,6 @@
                                     <p>{{TicketEditInfo.user.phone}}</p>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     
@@ -296,9 +294,101 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="AddScheduleModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <span style="font-size: 20px; font-weight: bold;">Thêm chuyến bay</span>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="bold">Số hiệu chuyến bay:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" ng-model="ScheduleInfo.flight_no" type="text"/>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <label class="bold">Khởi hành từ sân bay:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <dropdown-select class="form-control" dd-model='ScheduleInfo.from_airport' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <label class="bold">Đến sân bay:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <dropdown-select class="form-control" dd-model='ScheduleInfo.to_airport' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <label class="bold">Máy bay:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <dropdown-select class="form-control" dd-model='ScheduleInfo.airplane' dd-data='ListAirplane' dd-label='airplane_name'></dropdown-select>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <label class="bold">Thời gian khởi hành:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target=".dropdown2" href="javascript:void()">
+                                      <div class="input-group">
+                                        <input type="text" id="date" name="date" class="form-control" data-ng-model="ScheduleInfo.start_time">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                      </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                      <datetimepicker data-ng-model="ScheduleInfo.start_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px">
+                                <label class="bold">Thời gian kết thúc:</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target=".dropdown1" href="javascript:void()">
+                                      <div class="input-group">
+                                        <input type="text" id="date" name="date" class="form-control" data-ng-model="ScheduleInfo.end_time">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                      </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                      <datetimepicker data-ng-model="ScheduleInfo.end_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }"></datetimepicker>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn pull-right" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-info pull-right" style="margin-right: 10px" ng-click="CreateNewSchedule()">Tạo chuyến bay</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
-<div style="position: fixed; bottom: 20px; right: 20px; padding: 9px 12px; border-radius: 50%; background-color: aqua;" ng-if="token != ''" ng-click="AddFlightSchedule()">
+<div style="position: fixed; bottom: 20px; right: 20px; padding: 9px 12px; border-radius: 50%; background-color: #f56f28;" ng-if="token != ''" ng-click="AddFlightSchedule()">
     <span style="color: white"><i class="fa fa-2x fa-plus" aria-hidden="true"></i></span>
 </div>

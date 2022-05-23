@@ -43,8 +43,11 @@
                 <input class="form-control" id="password" type="password" ng-model="LoginData.password" placeholder="Mật khẩu"/>
                 <small style="color: #ff6565;">{{LoginData.pass_err}}</small>
             </div>
+            <div style="margin-top: 4px">
+                <a class="color_white pull-right" href="#!/forget">Quên mật khẩu?</a>
+            </div>
             <div style="margin-top: 50px">
-                <button type="submit" ng-click="Login()" class="btn btn-block" style="text-transform: uppercase;">Đăng nhập</button>
+                <button type="submit" ng-click="Login()" class="btn btn-block" style="text-transform: uppercase">Đăng nhập</button>
             </div>
         </form>
     </div>

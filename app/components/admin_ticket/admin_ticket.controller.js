@@ -3,6 +3,7 @@
 //$http     : https://docs.angularjs.org/api/ng/service/$http
 //Service   : https://viblo.asia/p/cach-su-dung-service-trong-angularjs-aRBvXnNweWE#_222-dung-service-method-8
 //NgTables  : https://embed.plnkr.co/2sBW2L/
+//Datetime picker: https://www.npmjs.com/package/angularjs-bootstrap-datetimepicker
 
 angular
     .module('myApp')
@@ -12,10 +13,21 @@ angular
 
         $scope.ListFlightSchedule   = [];
         $scope.FlightSchedule       = null;
+        $scope.ListLocation         = [];
+        $scope.ListAirplane         = [];
+
+        // $(document).on('focus', ".datepicker_recurring_start", function() {
+        //     ComponentsDateTimePickers.init();
+        //     $(this).datepicker();
+        // });
+
+        // $(document).on('focus', ".timepicker", function() {
+        //     ComponentsDateTimePickers.init();
+        // });
 
         function init() {
             $("#loading_md").modal('show');
-            $q.all([GetListFlightSchedule()])
+            $q.all([GetListFlightSchedule(), GetListLocation(), GetListAirplane()])
                 .then(r => {
                     let HasErr = false;
                     for (let i of r) {
@@ -26,7 +38,9 @@ angular
                     }
 
                     if (!HasErr) {
-                        $scope.ListFlightSchedule = [];
+                        $scope.ListFlightSchedule   = [];
+                        $scope.ListLocation         = [];
+                        $scope.ListAirplane         = r[2].data.result.list;
                         for (let i of r[0].data.result.list) {
                             $scope.ListFlightSchedule.push({
                                 flight_schedule_id: i.flightId,
@@ -34,6 +48,15 @@ angular
                             });
                         }
                         $scope.FlightSchedule = null;
+
+                        for (let i of r[1].data.result.list) {
+                            for (let j of i.cities) {
+                                $scope.ListLocation.push({
+                                    location_id: j.location_id,
+                                    location_name: `${j.city_name} (${i.country_name})`
+                                });
+                            }
+                        }
                     }
                 })
                 .catch(CatchEx)
@@ -46,6 +69,14 @@ angular
 
         function GetListFlightSchedule() {
             return AdminTicketService.GetListFlightScheduleAPI();
+        }
+
+        function GetListLocation() {
+            return AdminTicketService.GetListLocationAPI();
+        }
+
+        function GetListAirplane() {
+            return AdminTicketService.GetListAirplaneAPI();
         }
 
         function fnGetListTicket() {
@@ -101,6 +132,18 @@ angular
         }
 
         $scope.AddFlightSchedule = function() {
-            
+            $scope.ScheduleInfo = {
+                flight_no   : "",
+                from_airport: "",
+                to_airport  : "",
+                airplane    : "",
+                start_time  : "",
+                end_time    : ""
+            };
+            $("#AddScheduleModal").modal('show');
+        }
+        $("#AddScheduleModal").modal('show');
+        $scope.CreateNewSchedule = function() {
+            console.log($scope.ScheduleInfo);
         }
     });

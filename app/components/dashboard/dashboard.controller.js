@@ -320,7 +320,7 @@ angular
                         }
                     } else CatchEx(r.data);
                 })
-                // .catch(CatchEx)
+                .catch(CatchEx)
                 .finally(() => $("#loading_md").modal('hide'));
         };
     });

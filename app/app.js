@@ -7,7 +7,8 @@ angular
       'ngRoute',
       'angularCSS',
       'DropDownSelect',
-      'ngTable'
+      'ngTable',
+      'ui.bootstrap.datetimepicker'
     ])
     .run(function($rootScope, $window, $location) {
         $rootScope.host         = "http://localhost:8080/";
@@ -21,8 +22,6 @@ angular
                 $window.alert(e.message);
             }
         };
-
-        $("#loading_md").modal('show');
 
         $rootScope.SignOut = function() {
             $rootScope.token = "";
@@ -56,6 +55,11 @@ angular
             .when('/admin_location', {
                 templateUrl : 'components/admin_location/admin_location.html',
                 controller  : 'AdminLocationController',
+                // css         : 'components/admin_ticket/admin_ticket.css'
+            })
+            .when('/forget', {
+                templateUrl : 'components/forget_password/forget_password.html',
+                controller  : 'ForgetPasswordController',
                 // css         : 'components/admin_ticket/admin_ticket.css'
             })
             .when('/admin_flight', {
