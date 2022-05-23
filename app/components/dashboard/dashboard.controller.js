@@ -13,10 +13,10 @@ angular
         $scope.LocationTo       = null;
         $scope.TicketFrom       = null;
         $scope.TicketTo         = null;
-        $scope.date_from        = "08/03/2022";
-        $scope.date_to          = "09/03/2022";
-        // $scope.date_from        = moment().format("DD/MM/YYYY");
-        // $scope.date_to          = null;
+        // $scope.date_from        = "08/03/2022";
+        // $scope.date_to          = "09/03/2022";
+        $scope.date_from        = moment().format("DD/MM/YYYY");
+        $scope.date_to          = null;
         $scope.ListLocation     = [];
 
         $scope.ListPassengerType= [{
