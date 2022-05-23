@@ -22,6 +22,8 @@ angular
             }
         };
 
+        $("#loading_md").modal('show');
+
         $rootScope.SignOut = function() {
             $rootScope.token = "";
             localStorage.removeItem("token");
