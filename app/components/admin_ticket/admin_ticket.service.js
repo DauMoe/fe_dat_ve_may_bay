@@ -11,6 +11,10 @@ angular
                 $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
                 return $http.post(HOST + "api/admin/add-schedule", reqData);
             },
+            CreateTicketForFlightScheduleAPI: () => {
+                $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
+                return $http.post(HOST + "api/admin/ticket/create", reqData);
+            },
             GetListAirplaneAPI: () => {
                 $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
                 return $http.get(HOST + "api/admin/airplane");
@@ -33,11 +37,11 @@ angular
             },
             GetListFlightScheduleAPI: () => {
                 $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
-                return $http.get(HOST + "api/admin/list-flight");
+                return $http.get(HOST + "api/admin/list-flight-schedule");
             },
             CreateTicket4FlightScheduleAPI: (reqData) => {
                 $http.defaults.headers.common['Authorization'] = "Bearer " + TOKEN;
-                return $http.get(HOST + "api/admin/ticket/create");
+                return $http.post(HOST + "api/admin/ticket/create", reqData);
             }
         };
     });

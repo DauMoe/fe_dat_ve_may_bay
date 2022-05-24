@@ -134,8 +134,9 @@ angular
 
         $scope.AddPassenger = function() {
             $scope.SelectedFlight.ListPassenger.push({
-                type: '',
-                num_of_pass: 0
+                type            : "",
+                num_of_pass     : 1,
+                passenger_name  : ""
             });
         }
 
@@ -215,7 +216,7 @@ angular
                 .then(function(r) {
                     if (r.data.code === 200) {
                         $("#BookingTicketModal").modal('hide');
-                        $window.alert("Thành công");
+                        $window.alert(r.data.result);
                     } else CatchEx(r.data);
                 })
                 .catch(CatchEx)

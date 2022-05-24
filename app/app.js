@@ -21,6 +21,7 @@ angular
             } else {
                 $window.alert(e.message);
             }
+            $("#loading_md").modal('hide');
         };
 
         $rootScope.SignOut = function() {
