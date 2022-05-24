@@ -190,7 +190,7 @@ angular
             reqData.namePassenger   = $scope.SelectedFlight.name;
             reqData.phoneNumber     = $scope.SelectedFlight.phone;
             reqData.email           = $scope.SelectedFlight.email;
-            if ($scope.TicketFrom.length > 0 && $scope.TicketTo.length > 0) {
+            if ($scope.TicketFrom != null && $scope.TicketTo != null) {
                 reqData.ticketIdBack    = $scope.SelectedFlight.ToTicket.ticketId[0];
                 reqData.ticketIdTo      = $scope.SelectedFlight.FromTicket.ticketId[0];
             } else {
