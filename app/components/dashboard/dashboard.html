@@ -1,5 +1,12 @@
 <!-- https://saravanajd.github.io/Angularjs-Dropdown-Search/ -->
 <div ng-include="'components/Header/header.html'"></div>
+<style>
+    .equal {
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap: wrap;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -48,7 +55,7 @@
                   <div class="card-header" id="headingOne">
                       <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from1_')" data-target="#__from1_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center;">
                         <div style="flex: 1.5;">
-                            <img width="100%" src="{{p.link_image_brand}}"/>
+                            <img width="100%" style="max-height: 50px; object-fit: cover;" src="{{p.link_image_brand}}"/>
                         </div>
                         <div style="flex: 1" class="text-center">
                             <span>{{p.flight_no}}</span>
@@ -145,7 +152,7 @@
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px;">
                             <div style="flex: 1.5;">
-                                <img width="100%" src="{{p.link_image_brand}}"/>
+                                <img width="100%" style="max-height: 50px; object-fit: cover;" src="{{p.link_image_brand}}"/>
                             </div>
                             <div style="flex: 1" class="text-center">
                                 <span>{{p.flight_no}}</span>
@@ -232,7 +239,7 @@
                       <div class="card-header" id="headingOne">
                           <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px">
                             <div style="flex: 1.5;">
-                                <img width="100%" src="{{p.link_image_brand}}"/>
+                                <img width="100%" style="max-height: 50px; object-fit: cover;" src="{{p.link_image_brand}}"/>
                             </div>
                             <div style="flex: 1" class="text-center">
                                 <span>{{p.flight_no}}</span>
@@ -326,7 +333,7 @@
         </div>
 
 
-        <div class="col-md-12" style="background-color: rgb(197, 197, 197); color: rgb(0, 0, 0); padding-top: 15px; padding-bottom: 15px; margin: 30px 15px 0 15px; border-radius: 8px;">
+        <div class="col-md-12" style="background-color: #e5e5e5; color: rgb(0, 0, 0); padding-top: 15px; padding-bottom: 15px; margin: 30px 15px 0 15px; border-radius: 8px;">
             <h4>6 lý do đặt vé máy bay tại Muavegiare</h4>
             <ul>
                 <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Luôn bán đúng giá</li>
@@ -336,6 +343,83 @@
                 <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Hậu mãi chuyên nghiệp</li>
                 <li style="line-height: 1.5em; margin: 8px 0 4px 0;">Công ty bán vé máy bay online đầu tiên. Hơn 10 năm kinh nghiệm</li>
             </ul>
+        </div>
+
+        <div class="col-md-12 equal" style="padding: 0;margin: 20px 0 0 15px; color: rgb(0, 0, 0);border-radius: 8px;">
+            <div class="col-md-6" style="padding-left: 0px;">
+                <div style="background-color: rgb(6, 86, 161); color: white; padding: 4px 0;">
+                    <h4 style="text-transform: uppercase; text-align: center;">các hình thức mua vé</h4>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding-right: 0px;">
+                <div style="background-color: rgb(6, 86, 161); color: white; padding: 4px 0;">
+                    <h4 style="text-transform: uppercase; text-align: center;">các hình thức thanh toán</h4>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12 equal" style="padding: 4px 0;margin: 0 0 0 15px; color: rgb(0, 0, 0); border-radius: 8px;">
+            <div class="col-md-6" style="padding-left: 0px;">
+                <div style="position: relative; height: 100%; background-color: rgb(235, 235, 235); padding: 5px 5px 5px 0; display: flex; align-items: center;">
+                    <div style="background-color: rgb(231, 75, 3); margin: 10px; flex: 1; text-align: center; border-radius: 50%; padding: 3px 0; color: white;">
+                        <h4>1</h4>
+                    </div>
+                    <div style="flex: 10;">
+                        <h4>Đặt vé trực tiếp qua website Muavegiare.com</h4>
+                        <small>Nhanh nhất, tiện lợi và tiết kiệm nhất</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding-right: 0px;">
+                <div style="position: relative; background-color: rgb(235, 235, 235); padding: 5px 10px 10px 10px;">
+                    <h4>Thanh toán bằng chuyển khoản</h4>
+                    <small>Quý khách có thể thanh toán cho chúng tôi bằng cách chuyển khoản trực tiếp tại ngân hàng hoặc chuyển qua thẻ ATM, Internet banking</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 equal" style="padding: 15px 0;margin: 0px 0 0 15px; color: rgb(0, 0, 0); padding: 0 0 4px 0; border-radius: 8px;">
+            <div class="col-md-6" style="padding-left: 0px;">
+                <div style="position: relative; height: 100%; background-color: rgb(235, 235, 235); padding: 5px 5px 5px 0; display: flex; align-items: center;">
+                    <div style="background-color: rgb(24, 138, 146); margin: 10px; flex: 1; text-align: center; border-radius: 50%; padding: 3px 0; color: white;">
+                        <h4>2</h4>
+                    </div>
+                    <div style="flex: 10;">
+                        <h4>Gọi điện tới tổng đài 24/7</h4>
+                        <h4 style="color: red; font-weight: bold;">(+84) 33 111 2233</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding-right: 0px;">
+                <div style="position: relative; background-color: rgb(235, 235, 235); padding: 5px 10px 10px 10px;">
+                    <h4>Thanh toán tại nhà</h4>
+                    <small>Nhân viên của Muavegiare sẽ đến tận nơi theo địa chỉ của Quý khách để giao và thu tiền trong 3-24 giờ, từ Thứ Hai đến Chủ Nhật cả ngày lễ và hoàn toàn miễn phí</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 equal" style="padding: 15px 0;margin: 0px 0 0 15px; color: rgb(0, 0, 0); padding: 0 0 4px 0; border-radius: 8px;">
+            <div class="col-md-6" style="padding-left: 0px;">
+                <div style="position: relative; height: 100%; background-color: rgb(235, 235, 235); padding: 5px 5px 5px 0; display: flex; align-items: center;">
+                    <div style="background-color: rgb(47, 148, 47); margin: 10px; flex: 1; text-align: center; border-radius: 50%; padding: 3px 0; color: white;">
+                        <h4>3</h4>
+                    </div>
+                    <div style="flex: 10;">
+                        <h4>Đặt vé qua email</h4>
+                        <h4 style="color: red; font-weight: bold;">muavegiare@gmail.com</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding-right: 0px;">
+                <div style="position: relative; background-color: rgb(235, 235, 235); padding: 5px 10px 10px 10px;">
+                    <h4>Thanh toán bằng tiền mặt tại phòng vé</h4>
+                    <small>Sau khi đặt hàng thành công, bạn có thể đến văn phòng chúng tôi để thành toán và nhận vé. Vui lòng chọn văn phòng gần địa chỉ nhà của bạn nhất</small>
+                </div>
+            </div>
         </div>
 
         <div class="modal fade" id="BookingTicketModal">

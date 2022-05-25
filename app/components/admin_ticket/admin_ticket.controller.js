@@ -38,7 +38,7 @@ angular
                                 flight_name: `${i.flightNo} (${moment(i.startTime).format("DD/MM/YYYY HH:mm")} — ${moment(i.endTime).format("DD/MM/YYYY HH:mm")})`
                             });
                         }
-                        console.log($scope.ListFlightSchedule);
+                        GetAllTicket();
                         $scope.FlightSchedule = null;
 
                         for (let i of r[1].data.result.list) {
@@ -52,7 +52,7 @@ angular
                     }
                 })
                 .catch(CatchEx)
-                .finally(() => $("#loading_md").modal('hide'));
+                // .finally(() => $("#loading_md").modal('hide'));
         }
 
         init();
@@ -71,17 +71,48 @@ angular
             return AdminTicketService.GetListAirplaneAPI();
         }
 
+        function GetAllTicket(OpenLoadingModal = false) {
+            if (OpenLoadingModal) $("#loading_md").modal('show');
+            let ListPromises = [];
+            for (let i of $scope.ListFlightSchedule) {
+                ListPromises.push(AdminTicketService.GetTicketByFlightScheduleAPI(i.flight_schedule_id));
+                $q.all(ListPromises)
+                    .then(function(r) {
+                        let HasErr = false;
+                        for (let i of r) {
+                            if (i.data.code != 200) {
+                                HasErr = true;
+                                CatchEx(i.data);
+                            }
+                        }
+
+                        if (!HasErr) {
+                            let TotalTicket = [];
+                            for (let i of r) {
+                                console.log(i);
+                                TotalTicket = TotalTicket.concat(i.data.result.list);
+                            }
+                            $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: TotalTicket});   
+                        }
+                    })
+                    .catch(CatchEx)
+                    .finally(() => $("#loading_md").modal('hide'));
+            }
+        }
+
         function fnGetListTicket() {
-            if ($scope.FlightSchedule == "") return;
-            $("#loading_md").modal('show');
-            AdminTicketService.GetTicketByFlightScheduleAPI($scope.FlightSchedule.flight_schedule_id)
-                .then(function(r) {
-                    if (r.data.code === 200) {
-                        $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: r.data.result.list});
-                    } else CatchEx(r.data);
-                })
-                .catch(CatchEx)
-                .finally(() => $("#loading_md").modal('hide'));
+            if ($scope.FlightSchedule == "") GetAllTicket(true);
+            else {
+                $("#loading_md").modal('show');
+                AdminTicketService.GetTicketByFlightScheduleAPI($scope.FlightSchedule.flight_schedule_id)
+                    .then(function(r) {
+                        if (r.data.code === 200) {
+                            $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: r.data.result.list});
+                        } else CatchEx(r.data);
+                    })
+                    .catch(CatchEx)
+                    .finally(() => $("#loading_md").modal('hide'));
+            }
         }
 
         $scope.GetDetailTicket = function(p) {
