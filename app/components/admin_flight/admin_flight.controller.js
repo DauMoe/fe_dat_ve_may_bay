@@ -14,6 +14,12 @@ angular
         $scope.FlightSchedule       = null;
         $scope.ListLocation         = [];
         $scope.ListAirplane         = [];
+        $scope.FindFlightSchedule   = {
+            from_airport    : "",
+            to_airport      : "",
+            start_date      : "",
+            end_date        : ""
+        };
 
         function init() {
             $("#loading_md").modal('show');
@@ -31,12 +37,8 @@ angular
                         $scope.ListFlightSchedule   = [];
                         $scope.ListLocation         = [];
                         $scope.ListAirplane         = r[2].data.result.list;
-                        for (let i of r[0].data.result.list[0]) {
-                            $scope.ListFlightSchedule.push({
-                                ...i,
-                                start_time  : moment(i.startTime).format("DD/MM/YYYY HH:mm"),
-                                end_time    : moment(i.endTime).format("DD/MM/YYYY HH:mm"),
-                            });
+                        for (let i of r[0].data.result.list) {
+                            $scope.ListFlightSchedule.push(i);
                         }
                         $scope.FlightSchedule = null;
 
@@ -195,5 +197,31 @@ angular
                     } else CatchEx(r.data);
                 })
                 .catch(CatchEx);
+        }
+
+        $scope.FindFlightSchedule = function() {
+            let ListParams = [];
+            if ($scope.FindFlightSchedule.from_airport != "") {
+                ListParams.push(`from=${$scope.FindFlightSchedule.from_airport.location_id}`);
+            }
+            if ($scope.FindFlightSchedule.to_airport != "") {
+                ListParams.push(`to=${$scope.FindFlightSchedule.to_airport.location_id}`);
+            }
+            if ($scope.FindFlightSchedule.start_date != "") {
+                ListParams.push(`start_time=${$scope.FindFlightSchedule.start_date}`);
+            }
+            if ($scope.FindFlightSchedule.end_date != "") {
+                ListParams.push(`end_time=${$scope.FindFlightSchedule.end_date}`);
+            }
+            $("#loading_md").modal('show')
+            AdminFlightService.SearchFlightScheduleAPI(ListParams.join("&"))
+                .then(r => {
+                    if (r.data.code === 200) {
+                        $scope.ListFlightSchedule   = r.data.result.list;
+                        $scope.FlightSchedule       = null;
+                    } else CatchEx(r.data);
+                })
+                .catch(CatchEx)
+                .finally(() => $("#loading_md").modal('hide'));
         }
     });

@@ -32,10 +32,10 @@ angular
                         $scope.ListFlightSchedule   = [];
                         $scope.ListLocation         = [];
                         $scope.ListAirplane         = r[2].data.result.list;
-                        for (let i of r[0].data.result.list[0]) {
+                        for (let i of r[0].data.result.list) {
                             $scope.ListFlightSchedule.push({
-                                flight_schedule_id: i.flightScheduleId,
-                                flight_name: `${i.flightNo} (${moment(i.startTime).format("DD/MM/YYYY HH:mm")} — ${moment(i.endTime).format("DD/MM/YYYY HH:mm")})`
+                                flight_schedule_id: i.flight_schedule_id,
+                                flight_name: `${i.flight_no} (${i.start_time} — ${i.end_time})`
                             });
                         }
                         GetAllTicket();
@@ -281,5 +281,21 @@ angular
                     } else CatchEx(r.data);
                 })
                 .catch(CatchEx);
+        }
+
+        $scope.ApproveTicket = function(p) {
+            const cf = $window.confirm("Xác nhận người dùng đã thanh toán cho vé này?");
+            if (cf) {
+                $("#loading_md").modal('show');
+                AdminTicketService.ConfirmTicketAPI(p.ticket_id)
+                    .then(r => {
+                        if (r.data.code === 200) {
+                            init();
+                            $window.alert("Xác nhận thành công");
+                        } else CatchEx(r.data);
+                    })
+                    .catch(CatchEx)
+                    .finally(() => $("#loading_md").modal('hide'));
+            }
         }
     });

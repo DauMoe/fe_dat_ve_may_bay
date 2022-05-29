@@ -20,20 +20,22 @@
         
         <div class="col-md-12 margin-top-10">
             <table ng-table="ListTicketByScheduleParams" class="table" show-filter="true" ng-show="ListTicketByScheduleParams.data.length > 0">
-                <tr ng-repeat="p in $data track by $index">
+                <tr ng-repeat="p in $data track by $index" ng-if="p.booking_state != 'AVAILABLE'">
                     <td title="'STT'" class="text-center">{{$index+1}}</td>
-                    <td title="'Số hiệu chuyến bay'" filter="{ flight_no: 'text'}" sortable="'flight_no'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>
-                    <td title="'Số ghế'" class="text-center" filter="{ seat_number: 'text'}" sortable="'seat_number'">{{p.seat_number}}</td>
-                    <td title="'Trạng thái'" class="text-center" sortable="'booking_state'">{{p.booking_state === 'AVAILABLE' ? 'Vẫn đang trống' : 'Đặt vé thành công'}}</td>
+                    <td title="'Số hiệu chuyến bay'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>
+                    <td title="'Tên người đặt'" class="text-center">{{p.username}}</td>
+                    <td title="'Trạng thái'" class="text-center" sortable="'booking_state'">{{p.booking_state === 'BOOKED' ? 'Đã thanh toán' : p.booking_state == 'PENDING' ? 'Đang chờ thanh toán' : 'Ghế còn trống'}}</td>
                     <td title="'Thông tin vé'">
                         <span><b>Khởi hành từ:</b> {{p.from_airport.cityName}} ({{p.from_airport.countryName}})</span>
                         <br/>
                         <span><b>Đến:</b> {{p.to_airport.cityName}} ({{p.to_airport.countryName}})</span>
                     </td>
-                    <td title="'Sửa/Xoá'" class="text-center">
-                        <span ng-click="EditTicketInfo(p)" style="color: rgb(9, 172, 136); cursor: pointer;"><i class="fa fa-edit"></i></span> 
+                    <td title="''" class="text-center">
+                        <button class="btn btn-success" ng-if="p.booking_state == 'PENDING'" ng-click="ApproveTicket(p)">Xác nhận đã thanh toán</button>
+                        <button class="btn btn-danger" ng-if="p.booking_state != 'AVAILABLE'" ng-click="CancelTicket(p)">Hủy vé</button>
+                        <!-- <span ng-click="EditTicketInfo(p)" style="color: rgb(9, 172, 136); cursor: pointer;"><i class="fa fa-edit"></i></span> 
                         <b>/</b> 
-                        <span ng-click="CancelTicket(p)" style="color: red; cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        <span ng-click="CancelTicket(p)" style="color: red; cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></span> -->
                     </td>
                 </tr>
               </table>
@@ -114,7 +116,7 @@
                                     <label class="bold">Trạng thái: </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <p>{{TicketInfo.booking_state === 'BOOKED' ? 'Đặt vé thành công' : 'Vẫn đang trống'}}</p>
+                                    <p>{{TicketInfo.booking_state == 'BOOKED' ? 'Đã thanh toán' : TicketInfo.booking_state === 'PENDING' ? 'Đang chờ thanh toán' : 'Ghế còn trống'}}</p>
                                 </div>
                             </div>
 

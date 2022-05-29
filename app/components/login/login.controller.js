@@ -7,10 +7,18 @@ angular
         var host            = $rootScope.host;
         var CatchException  = $rootScope.CatchException;
 
+        // $scope.LoginData = {
+        //     email: "phamphilong4101999@gmail.com",
+        //     email_err: "",
+        //     password: "123",
+        //     pass_err: ""
+        // };
+
+
         $scope.LoginData = {
-            email: "phamphilong4101999@gmail.com",
+            email: "",
             email_err: "",
-            password: "123",
+            password: "",
             pass_err: ""
         };
 

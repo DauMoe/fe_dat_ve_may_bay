@@ -1,22 +1,77 @@
 <div ng-include="'components/Header/header.html'"></div>
 <div class="container">
     <div class="col-md-12">
-      <button class="btn btn-info pull-right" ng-click="AddFlightSchedule()">Thêm chuyến bay</button>
+        <button class="btn btn-info pull-right" ng-click="AddFlightSchedule()">Thêm chuyến bay</button>
     </div>
-    <h2>Danh sách các chuyến bay bay</h2>
+    <style>
+        fieldset.scheduler-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow:  0px 0px 0px 0px #000;
+                    box-shadow:  0px 0px 0px 0px #000;
+        }
+
+        legend.scheduler-border {
+            font-size: 1.2em !important;
+            font-weight: bold !important;
+            text-align: left !important;
+            width:auto;
+            padding:0 10px;
+            border-bottom:none;
+        }
+
+        .equal {
+            display: flex;
+            display: -webkit-flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+    </style>
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Tìm kiếm</legend>
+        <div class="col-md-12 equal" style="margin-top: 10px">
+            <div class="col-md-10">
+                <div class="col-md-12">
+                    <div class="col-md-2">Từ - đến</div>
+                    <div class="col-md-5">
+                        <dropdown-select class="form-control" dd-model='SearchInfo.from_airport' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                    </div>
+                    <div class="col-md-5">
+                        <dropdown-select class="form-control" dd-model='SearchInfo.to_airport' dd-data='ListLocation' dd-label='location_name'></dropdown-select>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px">
+                    <div class="col-md-2">Thời gian:</div>
+                    <div class="col-md-5">
+                        <input class="form-control datepicker" data-date-format="dd/mm/yyyy" ng-model="SearchInfo.start_date" data-provide="datepicker" placeholder="Bấm chọn ngày đi" readonly>
+                    </div>
+                    <div class="col-md-5">
+                        <input class="form-control datepicker" data-date-format="dd/mm/yyyy" ng-model="SearchInfo.end_date" data-provide="datepicker" placeholder="Bấm chọn ngày về" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-warning" ng-click="FindFlightSchedule()">Tìm kiếm</button>
+            </div>
+        </div>
+    </fieldset>
+    <h2>Danh sách các chuyến bay</h2>
     <table class="table table-bordered">
       <thead>
         <tr>
           <th class="text-center">Số hiệu chuyến bay</th>
+          <th class="text-center">Khởi hành từ - đến</th>
           <th class="text-center">Thời gian (dự kiến)</th>
-          <th class="text-center">Số ghế còn trống</th>
+          <th class="text-center">Tổng số ghế</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="p in ListFlightSchedule">
-          <td style="vertical-align: middle;"><b>{{p.flightNo}}</b></td>
+          <td style="vertical-align: middle;"><b>{{p.flight_no}}</b></td>
+          <td style="vertical-align: middle;"><b>{{p.from_location.city}}</b> ({{p.from_location.country}}) - <b>{{p.to_location.city}}</b> ({{p.to_location.country}})</td>
           <td style="vertical-align: middle;" class="text-center">{{p.start_time}} - {{p.end_time}}</td>
-          <td style="vertical-align: middle;" class="text-center">{{p.availableSeat}}</td>
+          <td style="vertical-align: middle;" class="text-center">{{p.airplane.capacity}} chỗ ngồi</td>
         </tr>
       </tbody>
     </table>
