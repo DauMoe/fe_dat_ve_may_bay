@@ -14,7 +14,7 @@ angular
         $scope.FlightSchedule       = null;
         $scope.ListLocation         = [];
         $scope.ListAirplane         = [];
-        $scope.FindFlightSchedule   = {
+        $scope.SearchInfo   = {
             from_airport    : "",
             to_airport      : "",
             start_date      : "",
@@ -199,29 +199,37 @@ angular
                 .catch(CatchEx);
         }
 
-        $scope.FindFlightSchedule = function() {
+        $scope.FindFlightScheduleFunc = function() {
             let ListParams = [];
-            if ($scope.FindFlightSchedule.from_airport != "") {
-                ListParams.push(`from=${$scope.FindFlightSchedule.from_airport.location_id}`);
+            if ($scope.SearchInfo.from_airport != "") {
+                ListParams.push(`from=${$scope.SearchInfo.from_airport.location_id}`);
             }
-            if ($scope.FindFlightSchedule.to_airport != "") {
-                ListParams.push(`to=${$scope.FindFlightSchedule.to_airport.location_id}`);
+            if ($scope.SearchInfo.to_airport != "") {
+                ListParams.push(`to=${$scope.SearchInfo.to_airport.location_id}`);
             }
-            if ($scope.FindFlightSchedule.start_date != "") {
-                ListParams.push(`start_time=${$scope.FindFlightSchedule.start_date}`);
+            if ($scope.SearchInfo.start_date != "") {
+                ListParams.push(`start_time=${$scope.SearchInfo.start_date}`);
             }
-            if ($scope.FindFlightSchedule.end_date != "") {
-                ListParams.push(`end_time=${$scope.FindFlightSchedule.end_date}`);
+            if ($scope.SearchInfo.end_date != "") {
+                ListParams.push(`end_time=${$scope.SearchInfo.end_date}`);
             }
             $("#loading_md").modal('show')
             AdminFlightService.SearchFlightScheduleAPI(ListParams.join("&"))
                 .then(r => {
+                    $scope.ListFlightSchedule = [];
                     if (r.data.code === 200) {
                         $scope.ListFlightSchedule   = r.data.result.list;
                         $scope.FlightSchedule       = null;
-                    } else CatchEx(r.data);
+                    } else if(r.data.code === 400) {
+                        
+                    } else {
+                        CatchEx(r.data);
+                    }
                 })
-                .catch(CatchEx)
+                .catch(e => {
+                    $scope.ListFlightSchedule = [];
+                    CatchEx(e);
+                })
                 .finally(() => $("#loading_md").modal('hide'));
         }
     });

@@ -52,12 +52,13 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-warning" ng-click="FindFlightSchedule()">Tìm kiếm</button>
+                <button class="btn btn-warning" ng-click="FindFlightScheduleFunc()">Tìm kiếm</button>
             </div>
         </div>
     </fieldset>
-    <h2>Danh sách các chuyến bay</h2>
-    <table class="table table-bordered">
+    <h3 class="text-center" ng-if="ListFlightSchedule.length == 0">Không có kết quả</h3>
+    <h2 ng-if="ListFlightSchedule.length>0">Danh sách các chuyến bay</h2>
+    <table class="table table-bordered" ng-if="ListFlightSchedule.length>0">
       <thead>
         <tr>
           <th class="text-center">Số hiệu chuyến bay</th>
