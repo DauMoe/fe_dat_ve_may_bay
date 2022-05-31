@@ -218,10 +218,21 @@ angular
                 .then(r => {
                     $scope.ListFlightSchedule = [];
                     if (r.data.code === 200) {
+                        $scope.SearchInfo   = {
+                            from_airport    : "",
+                            to_airport      : "",
+                            start_date      : "",
+                            end_date        : ""
+                        };
                         $scope.ListFlightSchedule   = r.data.result.list;
                         $scope.FlightSchedule       = null;
                     } else if(r.data.code === 400) {
-                        
+                        $scope.SearchInfo   = {
+                            from_airport    : "",
+                            to_airport      : "",
+                            start_date      : "",
+                            end_date        : ""
+                        };
                     } else {
                         CatchEx(r.data);
                     }
