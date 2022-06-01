@@ -209,10 +209,11 @@ angular
             }
             if ($scope.SearchInfo.start_date != "") {
                 ListParams.push(`start_time=${$scope.SearchInfo.start_date}`);
+                ListParams.push(`end_time=${$scope.SearchInfo.start_date}`);
             }
-            if ($scope.SearchInfo.end_date != "") {
-                ListParams.push(`end_time=${$scope.SearchInfo.end_date}`);
-            }
+            // if ($scope.SearchInfo.end_date != "") {
+            //     ListParams.push(`end_time=${$scope.SearchInfo.end_date}`);
+            // }
             $("#loading_md").modal('show')
             AdminFlightService.SearchFlightScheduleAPI(ListParams.join("&"))
                 .then(r => {
