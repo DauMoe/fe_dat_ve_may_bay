@@ -20,7 +20,7 @@
         
         <div class="col-md-12 margin-top-10">
             <table ng-table="ListTicketByScheduleParams" class="table" show-filter="true" ng-show="ListTicketByScheduleParams.data.length > 0">
-                <tr ng-repeat="p in $data track by $index" ng-if="p.booking_state != 'AVAILABLE'">
+                <tr ng-repeat="p in $data track by $index">
                     <td title="'STT'" class="text-center">{{$index+1}}</td>
                     <td title="'Số hiệu chuyến bay'" style="color: rgb(0, 134, 187); cursor: pointer;; text-decoration: underline;" ng-click="GetDetailTicket(p)">{{p.flight_no}} ({{p.airplane_name}})</td>
                     <td title="'Tên người đặt'" class="text-center">{{p.username}}</td>

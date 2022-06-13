@@ -89,8 +89,11 @@ angular
                         if (!HasErr) {
                             let TotalTicket = [];
                             for (let i of r) {
-                                console.log(i);
-                                TotalTicket = TotalTicket.concat(i.data.result.list);
+                                for (let j of i.data.result.list) {
+                                    if (j.booking_state != "AVAILABLE") {
+                                        TotalTicket.push(j);
+                                    }
+                                }
                             }
                             $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: TotalTicket});   
                         }
@@ -107,7 +110,13 @@ angular
                 AdminTicketService.GetTicketByFlightScheduleAPI($scope.FlightSchedule.flight_schedule_id)
                     .then(function(r) {
                         if (r.data.code === 200) {
-                            $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: r.data.result.list});
+                            let Tickets = [];
+                            for (let i of r.data.result.list) {
+                                if (i.booking_state != "AVAILABLE") {
+                                    Tickets.push(i);
+                                }
+                            }
+                            $scope.ListTicketByScheduleParams = new NgTableParams({}, { dataset: Tickets});
                         } else CatchEx(r.data);
                     })
                     .catch(CatchEx)
