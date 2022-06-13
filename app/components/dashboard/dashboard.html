@@ -474,6 +474,10 @@
                         <div class="col-md-12" style="margin-top: 10px">
                             <button class="btn btn-warning pull-right" ng-click="AddPassenger()">Thêm người</button>
                         </div>
+
+                        <div class="col-md-12" style="margin-top: 10px" ng-show="SelectedFlight.TotalPrice != null">
+                           <b>Tổng tiền: </b><span>{{SelectedFlight.TotalPrice}} VNĐ</span>
+                        </div>
                   </div>
                 </div>
                 
@@ -481,6 +485,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn pull-right" data-dismiss="modal">Huỷ</button>
                     <button type="button" class="btn btn-info pull-right" style="margin-right: 10px;" ng-click="BookTicket()">Đặt vé</button>
+                    <button type="button" class="btn btn-warning pull-right" style="margin-right: 10px;" ng-click="CalTotalPrice()">Tính tổng tiền</button>
                 </div>
                 
               </div>

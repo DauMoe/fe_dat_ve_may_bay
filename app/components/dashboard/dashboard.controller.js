@@ -75,6 +75,23 @@ angular
             $scope.date_to = null;
         }
 
+        function ReCalTotalPrice() {
+            const adultPrice = Number($scope.SelectedFlight.price.replace(/\./g, ''));
+            let x = 0;
+            for (const i of $scope.SelectedFlight.ListPassenger) {
+                if (i.type.id === 1) {
+                    x += adultPrice;
+                } else if (i.type.id === 2) {
+                    x += (adultPrice * 0.9)
+                } else {
+                    x += (adultPrice * 0.1)
+                }
+            }
+            x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $scope.SelectedFlight.TotalPrice = x;
+            console.log($scope.SelectedFlight);
+        }
+
         $scope.GetDetail = function(p, index, pre) {
             if (p.detail == null) {
                 $("#loading_md").modal('show');
@@ -94,6 +111,7 @@ angular
 
         $scope.ChangePassengerType = function() {
             // console.log($scope.SelectedFlight);
+            // ReCalTotalPrice();
         }
 
         $scope.OrderTicket = OrderTicket;
@@ -104,6 +122,7 @@ angular
                 $scope.SelectedFlight.name          = '';
                 $scope.SelectedFlight.phone         = '';
                 $scope.SelectedFlight.email         = '';
+                $scope.SelectedFlight.TotalPrice    = 0;
                 $scope.SelectedFlight.ListPassenger = [{
                     type            : $scope.ListPassengerType[0],
                     num_of_pass     : 1,
@@ -115,6 +134,7 @@ angular
                 $scope.SelectedFlight.email         = '';
                 $scope.SelectedFlight.ToTicket      = '';
                 $scope.SelectedFlight.FromTicket    = '';
+                $scope.SelectedFlight.TotalPrice    = 0;
                 $scope.SelectedFlight.ListPassenger = [{
                     type            : $scope.ListPassengerType[0],
                     num_of_pass     : 1,
@@ -124,9 +144,14 @@ angular
             $("#BookingTicketModal").modal('show');
         }
 
+        $scope.CalTotalPrice = function() {
+            ReCalTotalPrice();
+        }
+
         $scope.RemovePassenger = function(index) {
             if ($scope.SelectedFlight.ListPassenger.length > 1) {
                 $scope.SelectedFlight.ListPassenger.splice(index, 1);
+                // ReCalTotalPrice
             } else {
                 $window.alert("Phải có ít nhất một hành khách");
             }
