@@ -150,7 +150,7 @@
                     <h4 ng-if="TicketFrom.length == 0">Không có kết quả chiều đi!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketFrom track by $index">
                       <div class="card-header" id="headingOne">
-                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px;">
+                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__from_')" data-target="#__from_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 100px">
                             <div style="flex: 1.5;">
                                 <img width="100%" style="max-height: 80px; object-fit: cover;" src="{{p.link_image_brand}}"/>
                             </div>
@@ -237,7 +237,7 @@
                     <h4 ng-if="TicketTo.length == 0" class="text-center" style="padding: 20px 0;">Không có kết quả chiều khứ hồi!</h4>
                     <div class="card" style="margin-top:15px" ng-repeat="p in TicketTo track by $index">
                       <div class="card-header" id="headingOne">
-                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 60px">
+                          <div class="collapsed" data-toggle="collapse" ng-click="GetDetail(p, $index, '__to_')" data-target="#__to_{{$index}}" aria-expanded="true" aria-controls="collapseOne" style="display: flex; justify-content: space-around; cursor: pointer; padding: 10px; background-color: #c5f3f3; align-items: center; height: 100px">
                             <div style="flex: 1.5;">
                                 <img width="100%" style="max-height: 80px; object-fit: cover;" src="{{p.link_image_brand}}"/>
                             </div>

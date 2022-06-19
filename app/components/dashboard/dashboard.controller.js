@@ -326,7 +326,7 @@ angular
                                         display : `${i.brand} ${i.flight_no} (${i.start_time} - ${i.end_time})`
                                     });
                                 } else {
-                                    $scope.TicketFrom[index].ticketId.push(i.ticket_id);
+                                    $scope.TicketTo[index].ticketId.push(i.ticket_id);
                                 }
                             }
 
