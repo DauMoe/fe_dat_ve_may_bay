@@ -240,6 +240,7 @@ angular
             DashboardService.BookTicketAPI(reqData)
                 .then(function(r) {
                     if (r.data.code === 200) {
+                        SearchTicket(false);
                         $("#BookingTicketModal").modal('hide');
                         $window.alert(r.data.result);
                     } else CatchEx(r.data);
@@ -255,7 +256,8 @@ angular
             }
         }
 
-        $scope.SearchTicket = function() {
+        $scope.SearchTicket = SearchTicket
+        function SearchTicket(showErr = true) {
             $scope.TicketFrom   = null;
             $scope.TicketTo     = null;
             // console.log($scope.LocationFrom);
@@ -344,9 +346,15 @@ angular
                                 }
                             }
                         }
-                    } else CatchEx(r.data);
+                    } else {
+                        if (showErr) {
+                            CatchEx(r.data);
+                        }
+                    }
                 })
-                .catch(CatchEx)
+                .catch(e => {
+                    if (showErr) CatchEx(e);
+                })
                 .finally(() => $("#loading_md").modal('hide'));
         };
     });

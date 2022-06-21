@@ -1,25 +1,41 @@
 {
-  "name": "angular-select2",
-  "version": "1.5.3",
-  "description": "Select2 directive for Angular.js",
-  "main": "dist/angular-select2.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "grunt ci",
-    "prepublish": "grunt build"
-  },
-  "keywords": [
-    "angular",
-    "select2"
+  "_args": [
+    [
+      "angular-select2@1.5.3",
+      "D:\\petproject\\fe_dat_ve_may_bay"
+    ]
   ],
+  "_from": "angular-select2@1.5.3",
+  "_id": "angular-select2@1.5.3",
+  "_inBundle": false,
+  "_integrity": "sha512-4TJAKzZjEXeUvmWrUHVMOfUYsv61SWPd9IUY+9O9npGxAeNSGe8LQvpRCivjYObHNR8Nyf7XaHA/wC8hU66OEA==",
+  "_location": "/angular-select2",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "angular-select2@1.5.3",
+    "name": "angular-select2",
+    "escapedName": "angular-select2",
+    "rawSpec": "1.5.3",
+    "saveSpec": null,
+    "fetchSpec": "1.5.3"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-select2/-/angular-select2-1.5.3.tgz",
+  "_spec": "1.5.3",
+  "_where": "D:\\petproject\\fe_dat_ve_may_bay",
   "author": {
     "name": "Ruben Vermeersch",
     "email": "ruben@rocketeer.be",
     "url": "http://rocketeer.be/"
   },
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rubenv/angular-select2/issues"
+  },
+  "description": "Select2 directive for Angular.js",
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-bump": "0.8.0",
@@ -34,15 +50,31 @@
     "grunt-protractor-runner": "3.2.0",
     "grunt-sauce-tunnel": "^0.2.0",
     "grunt-shell": "^1.3.0",
-    "open-sauce-browsers": "git://github.com/rubenv/open-sauce-browsers",
+    "open-sauce-browsers": "git://github.com/rubenv/open-sauce-browsers.git",
     "protractor": "~3.3.0",
     "serve-static": "^1.11.1"
   },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/rubenv/angular-select2#readme",
+  "jspm": {
+    "main": "dist/angular-select2"
+  },
+  "keywords": [
+    "angular",
+    "select2"
+  ],
+  "license": "MIT",
+  "main": "dist/angular-select2.js",
+  "name": "angular-select2",
   "repository": {
     "type": "git",
     "url": "git://github.com/rubenv/angular-select2.git"
   },
-  "jspm": {
-    "main": "dist/angular-select2"
-  }
+  "scripts": {
+    "prepublish": "grunt build",
+    "test": "grunt ci"
+  },
+  "version": "1.5.3"
 }
